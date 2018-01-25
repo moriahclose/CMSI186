@@ -25,10 +25,6 @@
 
 public class CalendarStuff {
 
-  public static void main (String args[]) {
-    System.out.println("You are " + daysBetween(9,9,1998,1,23,2018) + " days old.");
-  }
-
   /**
    * An array containing the days of the week with Sunday being the first day of the week
    */
