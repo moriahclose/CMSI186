@@ -142,22 +142,6 @@ public class CalendarStuff {
       return ( ((day - 1) >= daysOfWeek.length) || day < 1 ) ? "Not a Valid Day of the Week" : daysOfWeek[(int)(day-1)];
    }
 
-   /**
-    * A method to show which parts of the input dates are equal
-    * @param    month1 long   containing month number, starting with "1" for "January"
-    * @param    day1   long   containing day number
-    * @param    year1  long   containing four-digit year
-    * @param    month2 long   containing month number, starting with "1" for "January"
-    * @param    day2   long   containing day number
-    * @param    year2  long   containing four-digit year
-    * @return       0,1,2,3   if nothing is equal/years are equal/ month and year are equal/ dates are completely equal
-    */
-
-    public static int compareDateParts( long month1, long day1, long year1, long month2, long day2, long year2 ) {
-      return ( dateEquals(month1, day1, year1, month2, day2, year2) ) ? 3 : (year1 == year2 && month1 == month2 && day1 != day2) ? 2 : (year1 == year2 && month1 != month2 && day1 != day2) ? 1 : 0;
-    }
-
-
   /**
    * A method to return a count of the total number of days between two valid dates
    * @param    month1 long   containing month number, starting with "1" for "January"
