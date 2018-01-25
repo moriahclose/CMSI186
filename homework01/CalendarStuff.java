@@ -23,8 +23,6 @@
  *  @version 1.0.1  2017-12-25  B.J. Johnson  Updated for Spring 2018</br>
  */
 
- // QUESTION: Why is the expected output for toDayOfWeekString(0) "Friday"?
- // QUESTION: Why is the expected output for toDayOfWeekString(8) "Saturday"?
 public class CalendarStuff {
 
   public static void main (String args[]) {
