@@ -21,6 +21,7 @@
  *           -----  ----------  ------------  -----------------------------------------------------------</br>
  *  @version 1.0.0  2017-01-02  B.J. Johnson  Initial writing and release</br>
  *  @version 1.0.1  2017-12-25  B.J. Johnson  Updated for Spring 2018</br>
+ *  @version 2.0.0  2018-01-25  Moriah Tolliver Adding code to methods<br>
  */
 
 public class CalendarStuff {
