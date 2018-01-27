@@ -1,8 +1,8 @@
 /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *  File name     :  StringStuff.java
  *  Purpose       :  A file full of stuff to do with the Java String class
- *  Author        :  B.J. Johnson
- *  Date          :  2017-01-19
+ *  Author        :  B.J. Johnson - Moriah Tolliver
+ *  Date          :  2017-01-19   - 2018-01-27
  *  Description   :  This file presents a bunch of String-style helper methods.  Although pretty much
  *                   any and every thing you'd want to do with Strings is already made for you in the
  *                   Jave String class, this exercise gives you a chance to do it yourself [DIY] for some
@@ -135,6 +135,12 @@ public class StringStuff {
       return oddsOnly(removeDupes(s));
    }
 
+   /**
+    * Method to return the characters in a string but with no duplicate characters in the resulting string.
+    *
+    * @param s String containing the data to be parsed for &quot;odd&quot; letters
+    * @return  String containing the letters from the input without duplicates
+    */
    public static String removeDupes( String s ) {
      String outputString = "";
 
@@ -145,10 +151,5 @@ public class StringStuff {
      return outputString;
    }
 
-  /**
-   * Main method to test the methods in this class
-   *
-   * @param args String array containing command line parameters
-   */
 
 }
