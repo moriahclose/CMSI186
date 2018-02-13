@@ -1,31 +1,19 @@
 /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *  File name     :  HighRoll.java
- *  Purpose       :  Provides a class describing a set of dice
- *  Author        :  B.J. Johnson
+ *  Purpose       :  Plays a game of high roll
+ *  Author        :  Moriah Tolliver
  *  Date          :  2017-02-09
  *  Description   :  This class provides everything needed (pretty much) to describe a set of dice.  The
  *                   idea here is to have an implementing class that uses the Die.java class.  Includes
  *                   the following:
- *                   public DiceSet( int k, int n );                  // Constructor for a set of k dice each with n-sides
- *                   public int sum();                                // Returns the present sum of this set of dice
- *                   public void roll();                              // Randomly rolls all of the dice in this set
- *                   public void rollIndividual( int i );             // Randomly rolls only the ith die in this set
- *                   public int getIndividual( int i );               // Gets the value of the ith die in this set
- *                   public String toString();                        // Returns a stringy representation of this set of dice
- *                   public static String toString( DiceSet ds );     // Classwide version of the preceding instance method
- *                   public boolean isIdentical( DiceSet ds );        // Returns true iff this set is identical to the set ds
- *                   public static void main( String[] args );        // The built-in test program for this class
- *
- *  Notes         :  Stolen from Dr. Dorin pretty much verbatim, then modified to show some interesting
- *                   things about Java, and to add this header block and some JavaDoc comments.
- *  Warnings      :  None
- *  Exceptions    :  IllegalArgumentException when the number of sides or pips is out of range
+ *                   public static void main( String[] args );        // The implements game play
+
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *  Revision History
  *  ----------------
  *            Rev      Date     Modified by:  Reason for change/modification
  *           -----  ----------  ------------  -----------------------------------------------------------
- *  @version 1.0.0  2017-02-09  B.J. Johnson  Initial writing and release
+ *  @version 1.0.0  2018-02-13  M. Tolliver  Initial writing and release
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 import java.util.Scanner;
 
@@ -62,22 +50,21 @@ public class HighRoll {
 
     dice = new DiceSet( count , sides );
 
-    // DISPLAY MENU
-    System.out.println( "[1] ROLL ALL THE DICE");
-    System.out.println( "[2] ROLL ONE DIE");
-    System.out.println( "[3] CALCULATE THE SCORE FOR THIS SET");
-    System.out.println( "[4] SAVE THIS SCORE AS HIGH SCORE");
-    System.out.println( "[5] DISPLAY THE HIGH SCORE");
-    System.out.println( "[6] QUIT");
-
-
     // GAME PLAY
     while ( !quit ) {
 
       int input = 0;
 
+      // DISPLAY MENU
+      System.out.println( "[1] ROLL ALL THE DICE");
+      System.out.println( "[2] ROLL ONE DIE");
+      System.out.println( "[3] CALCULATE THE SCORE FOR THIS SET");
+      System.out.println( "[4] SAVE THIS SCORE AS HIGH SCORE");
+      System.out.println( "[5] DISPLAY THE HIGH SCORE");
+      System.out.println( "[6] QUIT");
+
       // DISPLAY CURRENT DICE SET AND PROMPT FOR INPUT
-      System.out.print( "\b\b\b\b\b\b\bCURRENT DICE SET: " + dice.toString() + "\nEnter number of your desired action: ");
+      System.out.print( "CURRENT DICE SET: " + dice.toString() + "\nEnter number of your desired action: ");
 
       try { input = sc.nextInt(); }
       catch( Exception e ) { sc.next(); }
@@ -112,7 +99,7 @@ public class HighRoll {
           break;
 
         case 5:
-          System.out.println( "High Score: " + highScore + "\r" );
+          System.out.println( "High Score: " + highScore + "\n" );
           break;
         case 6:
           quit = true;
@@ -121,6 +108,6 @@ public class HighRoll {
           System.out.println( "Usage: # between 1 and 6 inclusive " );
       }
    }
-   System.out.println("Thanks for playing!");
+   System.out.println("Final High Score: " + highScore + "\n" + "Thanks for playing!");
   }
 }
