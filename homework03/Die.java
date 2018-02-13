@@ -2,6 +2,7 @@
  *  File name     :  Die.java
  *  Purpose       :  Provides a class describing a single die that can be rolled
  *  @author       :  B.J. Johnson
+ *  @author       :  Moriah Tolliver
  *  Date          :  2017-02-06
  *  Description   :  This class provides the data fields and methods to describe a single game die.  A
  *                   die can have "N" sides.  Sides are randomly assigned sequential pip values, from 1
@@ -32,8 +33,9 @@
  *           -----  ----------  ------------  -----------------------------------------------------------
  *  @version 1.0.0  2017-02-06  B.J. Johnson  Initial writing and release
  *  @version 1.1.0  2017-02-17  B.J. Johnson  Filled in method code
+ *  @version 2.0.0  2018-02-13  M. Tolliver   Filled in code so methods work
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-// QUESTION: does toString() return current value or number of side?
+
 public class Die {
 
   /**
@@ -107,129 +109,122 @@ public class Die {
    * A little test main to check things out
    */
    public static void main( String[] args ) {
-     // CREATE TEST DIE
-     Die threeSides = new Die(3);
-     Die eightSides = new Die(8);
-     Die sixSides = new Die(6);
-     Die eighteenSides = new Die(18);
-     Die threeHundredSides = new Die(300);
-     Die seventyTwoSides = new Die(72);
-     Die dontRoll = new Die(6);
 
-     // TEST roll()
-     System.out.println("\nSIX TESTS FOR ROLL");
-     System.out.print(" Test for dice of sides < 4 ");
-     try { System.out.println( (threeSides.roll() <= 4) ? "PASSED" : "FAIL"); }
-     catch( Exception e ) { System.out.println ( false ); }
+     // CREATE TEST DICE
+     Die d;
+     Die d2;
+     int testRoll;
 
-     System.out.print(" Test for dice of 8 sides ");
-     try { System.out.println( (eightSides.roll() <= 8) ? "PASSED" : "FAIL"); }
-     catch( Exception e ) { System.out.println ( false ); }
+     // TEST roll
+     System.out.println("\n20 TESTS roll()");
+     // TEST DIE WITH 2 INPUT SIDES
+     System.out.println( "\n TEST roll() FOR DIE WITH '2' INPUT SIDES" );
+     d = new Die( 2 );
+     for (int testNum = 0; testNum < 4; testNum++ ) {
+       System.out.print("  TEST roll(): ");
+       testRoll = d.roll();
+       try { System.out.println( (testRoll > 0 && testRoll <= 4) ? "PASSED" : "FAILED" ); }
+       catch (Exception e) { System.out.println("ERROR"); }
+     }
 
-     System.out.print(" Test for dice of 6 sides ");
-     try { System.out.println( (eightSides.roll() <= 6) ? "PASSED" : "FAIL"); }
-     catch( Exception e ) { System.out.println ( false ); }
-
-     System.out.print(" Test for dice of 8 sides ");
-     try { System.out.println( (eighteenSides.roll() <= 18) ? "PASSED" : "FAIL"); }
-     catch( Exception e ) { System.out.println ( false ); }
-
-     System.out.print(" Test for dice of 300 sides ");
-     try { System.out.println( (threeHundredSides.roll() <= 300) ? "PASSED" : "FAIL"); }
-     catch( Exception e ) { System.out.println ( false ); }
-
-     System.out.print(" Test for dice of 8 sides ");
-     try { System.out.println( (seventyTwoSides.roll() <= 72) ? "PASSED" : "FAIL"); }
-     catch( Exception e ) { System.out.println ( false ); }
+     // TEST DIE WITH 2 INPUT SIDES
+     System.out.println( "\n TEST roll() FOR DIE WITH '16' INPUT SIDES" );
+     d = new Die( 16 );
+     for (int testNum = 0; testNum < 16; testNum++ ) {
+       System.out.print("  TEST roll(): ");
+       testRoll = d.roll();
+       try { System.out.println( (testRoll > 0 && testRoll <= 16) ? "PASSED" : "FAILED" ); }
+       catch (Exception e) { System.out.println("ERROR"); }
+     }
 
      // TEST getValue()
-     System.out.println( "\nTHREE TESTS FOR getValue() ");
-     int threeRoll = threeSides.roll();
-     System.out.print(" Test with threeSides: ");
-     try { System.out.println( (threeSides.getValue() == threeRoll) ? "PASSED" : "You should have gotten " + threeRoll + " not " + threeSides.getValue() ); }
-     catch( Exception e ) { System.out.println ( false ); }
+     System.out.println( "\n4 TESTS FOR getValue()");
+     System.out.print(" TEST getValue() with new roll: ");
+     testRoll = d.roll();
+     try { System.out.println( (d.getValue() == testRoll) ? "PASSED" : "FAILED" ); }
+     catch (Exception e) { System.out.println("ERROR"); }
 
-     System.out.print(" Test with unrolled die: ");
-     try { System.out.println( (dontRoll.getValue() == 0) ? "PASSED" : "You should have gotten 0 not " + dontRoll.getValue() ); }
-     catch( Exception e ) { System.out.println ( false ); }
+     System.out.print(" TEST getValue() without new roll: ");
+     try { System.out.println( (d.getValue() == testRoll) ? "PASSED" : "FAILED" ); }
+     catch (Exception e) { System.out.println("ERROR"); }
 
-     System.out.print(" Test with high number die: ");
-     int threeHundredRoll = threeHundredSides.roll();
-     try { System.out.println( (threeHundredSides.getValue() == threeHundredRoll) ? "PASSED" : "You should have gotten " + threeHundredRoll + " not " + threeSides.getValue() ); }
-     catch( Exception e ) { System.out.println ( false ); }
+     System.out.print(" TEST getValue() with new roll: ");
+     testRoll = d.roll();
+     try { System.out.println( (d.getValue() == testRoll) ? "PASSED" : "FAILED" ); }
+     catch (Exception e) { System.out.println("ERROR"); }
+
+     System.out.print(" TEST getValue() with new roll: ");
+     testRoll = d.roll();
+     try { System.out.println( (d.getValue() == testRoll) ? "PASSED" : "FAILED" ); }
+     catch (Exception e) { System.out.println("ERROR"); }
 
      // TEST setSides()
-     System.out.println( "\nTHREE TESTS FOR setSides()");
+     System.out.println("\n5 TESTS FOR setSides()");
+     System.out.print(" TEST setSides() with input '1' ");
+     try { System.out.println( (d.setSides(1) == 4) ? "PASSED" : "FAILED" ); }
+     catch (Exception e) { System.out.println("ERROR"); }
 
-     System.out.print(" Test setting die to number < 4: ");
-     try { System.out.println( (threeHundredSides.setSides( 2 ) == 4) ? "PASSED" : "You should have gotten 4 not " + threeHundredSides.setSides( 2 ) ); }
-     catch( Exception e ) { System.out.println ( false ); }
+     System.out.print(" TEST setSides() with input '-1' ");
+     try { System.out.println( (d.setSides(-1) == 4) ? "PASSED" : "FAILED" ); }
+     catch (Exception e) { System.out.println("ERROR"); }
 
-     System.out.print(" Test setting die to 50 sides : ");
-     try { System.out.println( (eightSides.setSides( 50 ) == 50) ? "PASSED" : "You should have gotten 50 not " + eightSides.setSides( 50 ) ); }
-     catch( Exception e ) { System.out.println ( false ); }
+     System.out.print(" TEST setSides() with input '16' ");
+     try { System.out.println( (d.setSides(16) == 16) ? "PASSED" : "FAILED" ); }
+     catch (Exception e) { System.out.println("ERROR"); }
 
-     System.out.print(" Test setting die to super high number: ");
-     try { System.out.println( (sixSides.setSides( 400 ) == 400) ? "PASSED" : "You should have gotten 400 not " + sixSides.setSides( 400 ) ); }
-     catch( Exception e ) { System.out.println ( false ); }
+     System.out.print(" TEST setSides() with input '50' ");
+     try { System.out.println( (d.setSides(50) == 50) ? "PASSED" : "FAILED" ); }
+     catch (Exception e) { System.out.println("ERROR"); }
 
-     // TEST instance toString()
-     System.out.println( "\nSEVEN TESTS FOR INSTANCE METHOD toString");
+     System.out.print(" TEST setSides() with input '319' ");
+     try { System.out.println( (d.setSides(319) == 319) ? "PASSED" : "FAILED" ); }
+     catch (Exception e) { System.out.println("ERROR"); }
 
-     System.out.print(" Test threeSides: ");
-     try { System.out.println( (threeSides.toString().equals("[4]") ) ? "PASSED" : "You should have gotten [4] not " + threeSides.toString() ); }
-     catch( Exception e ) { System.out.println ( false ); }
+     // TEST toString()
+     System.out.println("\n4 TEST FOR toString()");
+     System.out.print(" TEST toString() with 319 sided die new roll: ");
+     testRoll = d.roll();
+     try { System.out.println( (d.toString().equals("[" + testRoll + "]")) ? "PASSED" : "FAILED" ); }
+     catch (Exception e) { System.out.println("ERROR"); }
 
-     System.out.print(" Test eightSides: ");
-     try { System.out.println( (eightSides.toString().equals("[50]") ) ? "PASSED" : "You should have gotten [50] not " + eightSides.toString() ); }
-     catch( Exception e ) { System.out.println ( false ); }
+     System.out.print(" TEST toString() with 319 sided die new roll: ");
+     testRoll = d.roll();
+     try { System.out.println( (d.toString().equals("[" + testRoll + "]")) ? "PASSED" : "FAILED" ); }
+     catch (Exception e) { System.out.println("ERROR"); }
 
-     System.out.print(" Test sixSides: ");
-     try { System.out.println( (sixSides.toString().equals("[400]") ) ? "PASSED" : "You should have gotten [400] not " + sixSides.toString() ); }
-     catch( Exception e ) { System.out.println ( false ); }
+     System.out.print(" TEST toString() with 319 sided die last roll: ");
+     try { System.out.println( (d.toString().equals("[" + testRoll + "]")) ? "PASSED" : "FAILED" ); }
+     catch (Exception e) { System.out.println("ERROR"); }
 
-     System.out.print(" Test eighteenSides: ");
-     try { System.out.println( (eighteenSides.toString().equals("[18]") ) ? "PASSED" : "You should have gotten [18] not " + eighteenSides.toString() ); }
-     catch( Exception e ) { System.out.println ( false ); }
+     System.out.print(" TEST toString() with 319 sided die new roll: ");
+     testRoll = d.roll();
+     try { System.out.println( (d.toString().equals("[" + testRoll + "]")) ? "PASSED" : "FAILED" ); }
+     catch (Exception e) { System.out.println("ERROR"); }
 
-     System.out.print(" Test threeHundredSides: ");
-     try { System.out.println( (threeHundredSides.toString().equals("[4]") ) ? "PASSED" : "You should have gotten [4] not " + threeHundredSides.toString() ); }
-     catch( Exception e ) { System.out.println ( false ); }
+     // TEST toString(Die d)
+     System.out.println("\n4 TEST FOR toString(Die d2)");
+     System.out.print(" TEST toString(Die d2) where d2 = -1 sided die: ");
+     d2 = new Die( -1 );
+     testRoll = d2.roll();
+     try { System.out.println( (d.toString(d2).equals("[" + testRoll + "]")) ? "PASSED" : "FAILED" ); }
+     catch (Exception e) { System.out.println("ERROR"); }
 
-     System.out.print(" Test seventyTwoSides: ");
-     try { System.out.println( (seventyTwoSides.toString().equals("[72]") ) ? "PASSED" : "You should have gotten [72] not " + seventyTwoSides.toString() ); }
-     catch( Exception e ) { System.out.println ( false ); }
+     System.out.print(" TEST toString(Die d2) where d2 = 15 sided die: ");
+     d2 = new Die( 15 );
+     testRoll = d2.roll();
+     try { System.out.println( (d.toString(d2).equals("[" + testRoll + "]")) ? "PASSED" : "FAILED" ); }
+     catch (Exception e) { System.out.println("ERROR"); }
 
-     System.out.print(" Test dontRoll: ");
-     try { System.out.println( (dontRoll.toString().equals("[6]") ) ? "PASSED" : "You should have gotten [6] not " + dontRoll.toString() ); }
-     catch( Exception e ) { System.out.println ( false ); }
+     System.out.print(" TEST toString(Die d2) where d2 = 3 sided die: ");
+     d2 = new Die( 3 );
+     testRoll = d2.roll();
+     try { System.out.println( (d.toString(d2).equals("[" + testRoll + "]")) ? "PASSED" : "FAILED" ); }
+     catch (Exception e) { System.out.println("ERROR"); }
 
-     // TEST classwide toString()
-     System.out.println( "\nSEVEN TESTS FOR CLASSWIDE METHOD toString");
-
-     System.out.print(" Test threeSides tells eighteenSides : ");
-     try { System.out.println( (threeSides.toString( eighteenSides ).equals("[18]") ) ? "PASSED" : "You should have gotten [18] not " + threeSides.toString( eightSides ) ); }
-     catch( Exception e ) { System.out.println ( false ); }
-
-     System.out.print(" Test eightSides tells threeSides: ");
-     try { System.out.println( (eightSides.toString( threeSides ).equals("[4]") ) ? "PASSED" : "You should have gotten [4] not " + eightSides.toString( threeSides ) ); }
-     catch( Exception e ) { System.out.println ( false ); }
-
-     System.out.print(" Test sixSides tells threeHundredSides: ");
-     try { System.out.println( (sixSides.toString( threeHundredSides ).equals("[4]") ) ? "PASSED" : "You should have gotten [4] not " + sixSides.toString( threeHundredSides ) ); }
-     catch( Exception e ) { System.out.println ( false ); }
-
-     System.out.print(" Test eighteenSides tells seventyTwoSides: ");
-     try { System.out.println( (eighteenSides.toString( seventyTwoSides ).equals("[72]") ) ? "PASSED" : "You should have gotten [72] not " + eighteenSides.toString( seventyTwoSides ) ); }
-     catch( Exception e ) { System.out.println ( false ); }
-
-     System.out.print(" Test for no die entered: ");
-     try { System.out.println( (threeHundredSides.toString().equals("[4]") ) ? "PASSED" : "You should have gotten [4] not " + threeHundredSides.toString() ); }
-     catch( Exception e ) { System.out.println ( false ); }
-
-     for (int i = 0; i < 10; i++) {
-       System.out.println( seventyTwoSides.roll() );
-       System.out.println( seventyTwoSides.toString() );
-     }
+     System.out.print(" TEST toString(Die d2) where d2 = 92 sided die: ");
+     d2 = new Die( 92 );
+     testRoll = d2.roll();
+     try { System.out.println( (d.toString(d2).equals("[" + testRoll + "]")) ? "PASSED" : "FAILED" ); }
+     catch (Exception e) { System.out.println("ERROR"); }
   }
 }
