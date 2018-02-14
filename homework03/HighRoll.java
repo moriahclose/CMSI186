@@ -80,14 +80,8 @@ public class HighRoll {
           int dieIndex = 0;
           System.out.println( "Enter index of die you want to roll (Dice are indexed from 0): ");
 
-          try { dieIndex = sc.nextInt(); }
+          try { dice.rollIndividual( sc.nextInt() ); }
           catch( Exception e ) { System.out.println( "Usage: # between 0 and number of dice exclusive" ); }
-
-          if (dieIndex < 0 || dieIndex >= count ) {
-            System.out.println( "Usage: # between 0 and number of dice exclusive" );
-            break;
-          }
-          dice.rollIndividual( dieIndex );
           break;
 
         case 3:
