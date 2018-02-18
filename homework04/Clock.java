@@ -87,6 +87,7 @@ public class Clock {
    public String tick() {
      second += timeSlice;
      minuteHandAngle += 360 * 60 * 60 * timeSlice;
+     hourHandAngle += 360 * 60 * 60 * 60 * timeSlice;
 
      if ( second >= 60 ) {
        minute++;
@@ -129,7 +130,7 @@ public class Clock {
        }
 
        public static void main( String args[] ) {
-         Clock c = new Clock( 60 , 25.8 );
+         Clock c = new Clock( 60 , 30 );
          for (int i = 0; i < 240; i++ ) {
            System.out.println( c.tick() );
          }
@@ -143,7 +144,7 @@ public class Clock {
 
 
 /*
-360 d  1 min
-------
-60 min 60 sec
+360 d  1 hr  1 min
+--------------------
+60 hr 60 min  60 sec
 */
