@@ -1,6 +1,6 @@
 /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *  File name     :  Clock.java
- *  Purpose       :  Provides a class describing a single die that can be rolled
+ *  Purpose       :  Provides a class describing a clock with different input precision
  *  @author       :  Moriah Tolliver
  *  Date          :  2018-03-
  *  Description   :  This class provides the data fields and methods to describe a single clock.  A
@@ -11,16 +11,10 @@
  *                   public double getMinuteHandAngle()                         // get the current angle of the minute hand
  *                   public double getHandAngle()                               // get the current angle between both hands
  *                   public String toString()                                   // get current time on this Clock
- *                   public static void main( String args[] );                  // main for testing porpoises
+ *                   public boolean equalsSoughtAngle()                         // return true if curent hand angle equals sought Angle and false otherwise
+ *                   public static void main( String args[] );                  // main for testing purposes
  *
- *  Notes         :  Restrictions: no such thing as a "two-sided die" which would be a coin, actually.
- *                   Also, no such thing as a "three-sided die" which is a physical impossibility without
- *                   having it be a hollow triangular prism shape, presenting an argument as to whether
- *                   the inner faces are faces which then should be numbered.  Just start at four for
- *                   minimum number of faces.  However, be aware that a four-sided die dosn't have a top
- *                   face to provide a value, since it's a tetrahedron [pyramid] so you'll have to figure
- *                   out a way to get the value, since it won't end up on its point.
- *
+ *  Notes         :  None
  *  Warnings      :  None
  *  Exceptions    :  IllegalArgumentException when the input angle and time slice are out of range
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -86,11 +80,19 @@ public class Clock {
    */
    public String tick() {
      second += timeSlice;
-     minuteHandAngle += 360 * 60 * 60 * timeSlice;
-     hourHandAngle += 360 * 60 * 60 * 60 * timeSlice;
 
-     if ( second >= 60 ) {
-       minute++;
+     minuteHandAngle += .1 * timeSlice;
+     if ( minuteHandAngle % 360 == 0 ) {
+       minuteHandAngle -= 360;
+     }
+
+     hourHandAngle += (double)( 1.0 / 120.0 ) * timeSlice;
+     if ( hourHandAngle % 360 == 0 ) {
+       hourHandAngle -= 360;
+     }
+
+     if ( second % 60 == 0 ) {
+       minute += Math.floor( second / 60 );
        second = second % 60;
      }
 
@@ -105,34 +107,44 @@ public class Clock {
     * @return  double value of the current angle of the hour hand
     */
     public double getHourHandAngle() {
-       return 0;
+       return hourHandAngle;
     }
 
     /**
      * @return  double value of the current angle of the minute hand
      */
      public double getMinuteHandAngle() {
-        return 0;
+        return minuteHandAngle;
      }
 
      /**
       * @return  double value of the current angle between the hour and the second hand
       */
       public double getHandAngle() {
-         return 0;
+         return ( Math.abs( hourHandAngle - minuteHandAngle ) > 180 ) ? ( 360 - Math.abs( hourHandAngle - minuteHandAngle ) ) : Math.abs( hourHandAngle - minuteHandAngle );
       }
+
+      /**
+       * @return  boolean; whether or not current angle is equal to the sought angle
+       */
+       public boolean equalsSoughtAngle() {
+          return ( this.getHandAngle() == angle ) ? true : false;
+       }
 
       /**
        * @return  double value of the current angle of the hour hand
        */
        public String toString() {
-          return "";
+         return hour + " : " + minute + " : " + second;
        }
 
        public static void main( String args[] ) {
-         Clock c = new Clock( 60 , 30 );
-         for (int i = 0; i < 240; i++ ) {
-           System.out.println( c.tick() );
+         Clock c = new Clock( 105 , 1800 );
+         for ( int i = 0; i < 20; i++ ) {
+           c.tick();
+           if ( c.equalsSoughtAngle() ) {
+             System.out.println( c.toString() );
+           }
          }
        }
  }
@@ -144,7 +156,7 @@ public class Clock {
 
 
 /*
-360 d  1 hr  1 min
---------------------
-60 hr 60 min  60 sec
+360 deg  1hr      1min
+-------
+12 hr     60 min  60 s
 */
