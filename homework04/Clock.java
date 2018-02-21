@@ -40,6 +40,10 @@ public class Clock {
     private double second;
     private final double MAXIMUM_ANGLE = 360.0;
     private final double MAXIMUM_TIMESLICE = 1800.0;
+    private final double HOUR_IN_A_DAY = 12.0;
+    private final double MIN_IN_AN_HOUR = 60.0;
+    private final double SEC_IN_A_MIN = 60.0;
+    private final double EPSILON = 0.01;
 
 
    // public constructor:
@@ -58,14 +62,14 @@ public class Clock {
      minute = 0.0;
      second = 0.0;
 
-     if ( timeSlice < 0 || timeSlice > MAXIMUM_TIMESLICE ) {
+     if ( timeSlice <= 0 || timeSlice > MAXIMUM_TIMESLICE ) {
        throw new IllegalArgumentException();
      }
      else {
        this.timeSlice = timeSlice;
      }
 
-     if ( angle > MAXIMUM_ANGLE ) {
+     if ( angle < 0 || angle > MAXIMUM_ANGLE ) {
        throw new IllegalArgumentException();
      }
      else {
@@ -81,25 +85,25 @@ public class Clock {
    public String tick() {
      second += timeSlice;
 
-     minuteHandAngle += .1 * timeSlice;
-     if ( minuteHandAngle % 360 == 0 ) {
-       minuteHandAngle -= 360;
+     minuteHandAngle += ( timeSlice * MAXIMUM_ANGLE ) / ( MIN_IN_AN_HOUR * SEC_IN_A_MIN );
+     if (minuteHandAngle > MAXIMUM_ANGLE ) {
+       minuteHandAngle -= MAXIMUM_ANGLE;
+     }
+     else if (minuteHandAngle == MAXIMUM_ANGLE ) {
+       minuteHandAngle = 0;
+     }
+     hourHandAngle += ( timeSlice * MAXIMUM_ANGLE ) / ( HOUR_IN_A_DAY * MIN_IN_AN_HOUR * SEC_IN_A_MIN );
+
+     if ( second >= SEC_IN_A_MIN ) {
+       minute += Math.floor( second / SEC_IN_A_MIN );
+       second = second % SEC_IN_A_MIN;
      }
 
-     hourHandAngle += (double)( 1.0 / 120.0 ) * timeSlice;
-     if ( hourHandAngle % 360 == 0 ) {
-       hourHandAngle -= 360;
+     if ( minute >= MIN_IN_AN_HOUR ) {
+       hour += Math.floor( minute / MIN_IN_AN_HOUR );
+       minute = minute % MIN_IN_AN_HOUR;
      }
 
-     if ( second % 60 == 0 ) {
-       minute += Math.floor( second / 60 );
-       second = second % 60;
-     }
-
-     if ( minute >= 60 ) {
-       hour++;
-       minute = 0;
-     }
       return hour + " : " + minute + " : " + second;
    }
 
@@ -121,14 +125,14 @@ public class Clock {
       * @return  double value of the current angle between the hour and the second hand
       */
       public double getHandAngle() {
-         return ( Math.abs( hourHandAngle - minuteHandAngle ) > 180 ) ? ( 360 - Math.abs( hourHandAngle - minuteHandAngle ) ) : Math.abs( hourHandAngle - minuteHandAngle );
+         return ( Math.abs( hourHandAngle - minuteHandAngle ) > 180.0 ) ? ( MAXIMUM_ANGLE - Math.abs( hourHandAngle - minuteHandAngle ) ) : Math.abs( hourHandAngle - minuteHandAngle );
       }
 
       /**
        * @return  boolean; whether or not current angle is equal to the sought angle
        */
        public boolean equalsSoughtAngle() {
-          return ( this.getHandAngle() == angle ) ? true : false;
+          return ( Math.abs( this.getHandAngle() - angle ) <= EPSILON ) ? true : false;
        }
 
       /**
@@ -139,24 +143,12 @@ public class Clock {
        }
 
        public static void main( String args[] ) {
-         Clock c = new Clock( 105 , 1800 );
-         for ( int i = 0; i < 20; i++ ) {
-           c.tick();
+         Clock c = new Clock( 90 , 15 );
+         while ( !c.toString().substring(0, 2).equals( "13" ) ) {
            if ( c.equalsSoughtAngle() ) {
-             System.out.println( c.toString() );
+             System.out.println( "Time = " + c.toString() + "  Angle = " + c.getHandAngle() );
            }
+             c.tick();
          }
        }
  }
-
-
-
-
-
-
-
-/*
-360 deg  1hr      1min
--------
-12 hr     60 min  60 s
-*/
