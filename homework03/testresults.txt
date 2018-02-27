@@ -1,0 +1,691 @@
+
+20 TESTS roll()
+
+ TEST roll() FOR DIE WITH '2' INPUT SIDES
+  TEST roll(): PASSED
+  TEST roll(): PASSED
+  TEST roll(): PASSED
+  TEST roll(): PASSED
+
+ TEST roll() FOR DIE WITH '16' INPUT SIDES
+  TEST roll(): PASSED
+  TEST roll(): PASSED
+  TEST roll(): PASSED
+  TEST roll(): PASSED
+  TEST roll(): PASSED
+  TEST roll(): PASSED
+  TEST roll(): PASSED
+  TEST roll(): PASSED
+  TEST roll(): PASSED
+  TEST roll(): PASSED
+  TEST roll(): PASSED
+  TEST roll(): PASSED
+  TEST roll(): PASSED
+  TEST roll(): PASSED
+  TEST roll(): PASSED
+  TEST roll(): PASSED
+
+4 TESTS FOR getValue()
+ TEST getValue() with new roll: PASSED
+ TEST getValue() without new roll: PASSED
+ TEST getValue() with new roll: PASSED
+ TEST getValue() with new roll: PASSED
+
+5 TESTS FOR setSides()
+ TEST setSides() with input '1' PASSED
+ TEST setSides() with input '-1' PASSED
+ TEST setSides() with input '16' PASSED
+ TEST setSides() with input '50' PASSED
+ TEST setSides() with input '319' PASSED
+
+4 TEST FOR toString()
+ TEST toString() with 319 sided die new roll: PASSED
+ TEST toString() with 319 sided die new roll: PASSED
+ TEST toString() with 319 sided die last roll: PASSED
+ TEST toString() with 319 sided die new roll: PASSED
+
+4 TEST FOR toString(Die d2)
+ TEST toString(Die d2) where d2 = -1 sided die: PASSED
+ TEST toString(Die d2) where d2 = 15 sided die: PASSED
+ TEST toString(Die d2) where d2 = 3 sided die: PASSED
+ TEST toString(Die d2) where d2 = 92 sided die: PASSED
+
+6 TESTS FOR sum() [12 6-sided dice]
+ Test with no roll (expected output = 0): 0
+ Test with roll [0][0][0][0][0][0][0][0][0][0][0][0]: 39
+ Test with roll [2][1][3][3][1][6][5][2][4][4][2][6]: 59
+ Test with roll [5][6][4][5][5][6][3][4][6][6][5][4]: 49
+ Test with roll [6][5][4][2][1][5][5][5][5][3][6][2]: 43
+ Test with roll [5][5][6][3][6][1][3][4][4][3][2][1]: 51
+
+6 TESTS FOR roll() [6 12-sided dice]
+ Starting set: [0][0][0][0][0][0]
+ Next roll: [6][4][8][4][11][9]
+ Next roll: [9][11][3][8][7][5]
+ Next roll: [6][8][6][11][11][9]
+ Next roll: [5][12][8][5][5][9]
+ Next roll: [7][10][9][1][2][2]
+ Next roll: [4][12][11][11][1][1]
+
+20 TESTS FOR rollIndividual()
+ Starting set [12 6-sided dice]: [3][6][3][3][2][5][4][5][6][5][3][6]
+ Roll Dice # -1: ERROR
+ Roll Dice # 0: [4][6][3][3][2][5][4][5][6][5][3][6]
+ Roll Dice # 1: [4][5][3][3][2][5][4][5][6][5][3][6]
+ Roll Dice # 2: [4][5][2][3][2][5][4][5][6][5][3][6]
+ Roll Dice # 3: [4][5][2][3][2][5][4][5][6][5][3][6]
+ Roll Dice # 4: [4][5][2][3][4][5][4][5][6][5][3][6]
+ Roll Dice # 5: [4][5][2][3][4][3][4][5][6][5][3][6]
+ Roll Dice # 6: [4][5][2][3][4][3][2][5][6][5][3][6]
+ Roll Dice # 7: [4][5][2][3][4][3][2][5][6][5][3][6]
+ Roll Dice # 8: [4][5][2][3][4][3][2][5][3][5][3][6]
+ Roll Dice # 9: [4][5][2][3][4][3][2][5][3][4][3][6]
+ Roll Dice # 10: [4][5][2][3][4][3][2][5][3][4][1][6]
+ Roll Dice # 11: [4][5][2][3][4][3][2][5][3][4][1][2]
+ Roll Dice # 12: ERROR
+ Starting set [6 12-sided dice]: [4][12][11][11][1][1]
+ Roll Dice # -1: ERROR
+ Roll Dice # 0: [4][12][11][11][1][1]
+ Roll Dice # 1: [4][9][11][11][1][1]
+ Roll Dice # 2: [4][9][7][11][1][1]
+ Roll Dice # 3: [4][9][7][11][1][1]
+ Roll Dice # 4: [4][9][7][11][3][1]
+ Roll Dice # 5: [4][9][7][11][3][5]
+ Roll Dice # 6: ERROR
+
+20 TESTS FOR getIndividual( int i )
+Starting set [12 6-sided dice]: [4][5][2][3][4][3][2][5][3][4][1][2]
+Get Dice #-1: ERROR
+Get Dice #0: 4
+Get Dice #1: 5
+Get Dice #2: 2
+Get Dice #3: 3
+Get Dice #4: 4
+Get Dice #5: 3
+Get Dice #6: 2
+Get Dice #7: 5
+Get Dice #8: 3
+Get Dice #9: 4
+Get Dice #10: 1
+Get Dice #11: 2
+Get Dice #12: ERROR
+Starting set [6 12-sided dice]: [4][9][7][11][3][5]
+Get Dice #-1: ERROR
+Get Dice #0: 4
+Get Dice #1: 9
+Get Dice #2: 7
+Get Dice #3: 11
+Get Dice #4: 3
+Get Dice #5: 5
+Get Dice #6: ERROR
+
+3 TESTS FOR toString()
+ Test DiceSet with 12 6-sided dice: [4][5][2][3][4][3][2][5][3][4][1][2]
+ Test DiceSet with 6 12-sided dice: [4][9][7][11][3][5]
+ Test DiceSet with 12 6-sided dice that are unrolled: [0][0][0][0][0][0][0][0][0][0][0][0]
+
+2 TESTS for getSides()
+ Dice with 6 sides: 6
+ Dice with 12 sides: 12
+
+3 TESTS FOR toString( DiceSet ds )
+ Test with input DiceSet with 12 6-sided dice: [4][9][7][11][3][5]
+ Test with input DiceSet with 6 12-sided dice that are unrolled: [0][0][0][0][0][0][0][0][0][0][0][0]
+ Test with input DiceSet same as executing DiceSet: [0][0][0][0][0][0][0][0][0][0][0][0]
+
+23 TESTS FOR isIdentical( DiceSet ds )
+ Test with DiceSet[12 6-sided dice] and DiceSet[6 12-sided dice]:  [0][0][0][0][0][0][0][0][0][0][0][0] is different than [4][9][7][11][3][5]
+ Test DiceSet[2 4-sided dice] with  DiceSet[2 4-sided dice]: 
+ [0][0] is identical to [0][0]
+ [4][1] is different than [0][0]
+ [4][1] is different than [3][3]
+ [4][1] is different than [4][4]
+ [4][1] is different than [2][1]
+ [4][1] is different than [3][4]
+ [4][1] is identical to [4][1]
+ [4][1] is different than [1][3]
+ [4][1] is different than [2][2]
+ [4][1] is different than [4][2]
+ [4][1] is different than [2][4]
+ [4][1] is different than [2][4]
+ [4][1] is different than [3][1]
+ [4][1] is different than [2][2]
+ [4][1] is different than [1][3]
+ [4][1] is different than [3][2]
+ [4][1] is different than [3][4]
+ [4][1] is different than [1][3]
+ [4][1] is different than [3][2]
+ [4][1] is different than [1][1]
+ [4][1] is different than [3][2]
+
+Test DiceSet[2 4-sided dice] with  DiceSet[2 6-sided dice]: 
+ [0][0] is different than [0][0]
+TESTING THE DIE CLASS: TEST CONSTRUCTOR FOR INVALID NUMBERS OF SIDES:
+TESTING THE DIE CLASS: TESTS ON 4-SIDED DIE:
+   roll() test for 4 sided die: 
+   You rolled a 4
+   You rolled a 3
+   You rolled a 2
+   You rolled a 3
+   You rolled a 4
+   Current value is: [4]
+TESTING THE DIE CLASS: TESTS ON 5-SIDED DIE:
+   roll() test for 5 sided die: 
+   You rolled a 2
+   You rolled a 3
+   You rolled a 3
+   You rolled a 4
+   You rolled a 5
+   Current value is: [5]
+TESTING THE DIE CLASS: TESTS ON 6-SIDED DIE:
+   roll() test for 6 sided die: 
+   You rolled a 5
+   You rolled a 4
+   You rolled a 4
+   You rolled a 6
+   You rolled a 5
+   Current value is: [5]
+TESTING THE DIE CLASS: TESTS ON 7-SIDED DIE:
+   roll() test for 7 sided die: 
+   You rolled a 6
+   You rolled a 2
+   You rolled a 2
+   You rolled a 6
+   You rolled a 1
+   Current value is: [1]
+TESTING THE DIE CLASS: TESTS ON 8-SIDED DIE:
+   roll() test for 8 sided die: 
+   You rolled a 6
+   You rolled a 5
+   You rolled a 3
+   You rolled a 8
+   You rolled a 5
+   Current value is: [5]
+TESTING THE DIE CLASS: TESTS ON 11-SIDED DIE USING NEW SIDE COUNT:
+   Rolling with new side count -- 
+      You rolled a 3
+      You rolled a 4
+      You rolled a 4
+      You rolled a 9
+      You rolled a 7
+TESTING THE DIE CLASS: TESTS ON 17-SIDED DIE USING NEW SIDE COUNT:
+   Rolling with new side count -- 
+      You rolled a 13
+      current value is: 13
+TESTING THE DIE CLASS: TESTS ON 111-SIDED DIE USING NEW SIDE COUNT:
+   Rolling with new side count -- 
+      You rolled a 55
+      current value is: 55
+......End of Die Class Testing.....
+
+
+TESTING THE DICESET CLASS: TEST CONSTRUCTOR FOR 3 SIX-SIDED DICE:
+  DiceSet: 3 dice, six sided - ds36:
+      initialized ds36 contents             : [0][0][0]
+      after collective roll ds36 contents   : [1][3][4]
+      after individual roll(2) ds36 contents: [1][3][4]
+      sum of dice values is: 8
+   Re-rolling all dice
+      after collective roll ds36 contents   : [3][4][2]
+      after individual roll(2) ds36 contents: [3][4][6]
+      sum of dice values is                 : 13
+   Test of getIndividual(): 
+      value of die at index 0: 3
+      value of die at index 1: 4
+      value of die at index 2: 6
+TESTING THE DICESET CLASS: TEST CONSTRUCTOR FOR 6 NINE-SIDED DICE:
+   DiceSet: 6 dice, nine sided - ds69:
+      initialized ds36 contents             : [0][0][0][0][0][0]
+      after collective roll ds69 contents   : [7][9][9][2][4][3]
+      after individual roll(2) ds69 contents: [7][9][1][2][4][3]
+      sum of dice values is                 : 26
+   Re-rolling all dice
+      after collective roll ds69 contents   : [4][7][4][3][2][7]
+      after individual roll(3) ds69 contents: [4][7][4][4][2][7]
+      sum of dice values is                 : 28
+   Test of getIndividual(): 
+      value of die at index 0: 4
+      value of die at index 1: 7
+      value of die at index 2: 4
+      value of die at index 3: 4
+      value of die at index 4: 2
+      value of die at index 5: 7
+TESTING THE DICESET CLASS: TEST CONSTRUCTOR FOR 9 SEVENTEEN-SIDED DICE:
+   DiceSet: 9 dice, 17 sided - ds917:
+      initialized ds36 contents              : [0][0][0][0][0][0][0][0][0]
+      after collective roll ds917 contents   : [6][11][2][1][8][5][4][9][13]
+      after individual roll(6) ds917 contents: [6][11][2][1][8][5][3][9][13]
+      sum of dice values is                  : 58
+   Re-rolling all dice
+      after collective roll ds917 contents   : [1][13][8][2][15][4][2][16][1]
+      after individual roll(8) ds69 contents : [1][13][8][2][15][4][2][16][9]
+      sum of dice values is                  : 70
+   Test of getIndividual(): 
+      value of die at index 0: 1
+      value of die at index 1: 13
+      value of die at index 2: 8
+      value of die at index 3: 2
+      value of die at index 4: 15
+      value of die at index 5: 4
+      value of die at index 6: 2
+      value of die at index 7: 16
+      value of die at index 8: 9
+TESTING THE DICESET CLASS: TEST 'isIdentical()' FOR 9 SEVENTEEN-SIDED DICE:
+   Test of isIndentical(): 
+      Test of ds917 against ds69   : false
+      Test of ds917 against itself : true
+TESTING THE DICESET CLASS: TEST 'isIdentical()' FOR NEW SET OF 9 SEVENTEEN-SIDED DICE:
+   DiceSet ds917 contents       : [1][15][10][9][17][6][17][1][4]
+      New DiceSet ds2_917 contents : [17][12][13][6][9][8][13][16][7]
+      Test of ds917 against ds2_917: false
+......End of DiceSet Class Testing.....
+
+
+Enter number of dice in your set: Enter number of sides on each die: [1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [0]
+Enter number of your desired action: 
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [2]
+Enter number of your desired action: 
+Enter index of die you want to roll (Dice are indexed from 0): 
+Usage: # between 0 and number of dice exclusive
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [2]
+Enter number of your desired action: 
+Enter index of die you want to roll (Dice are indexed from 0): 
+Usage: # between 0 and number of dice exclusive
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [2]
+Enter number of your desired action: 
+Enter index of die you want to roll (Dice are indexed from 0): 
+Usage: # between 0 and number of dice exclusive
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [2]
+Enter number of your desired action: 
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [2]
+Enter number of your desired action: 
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [2]
+Enter number of your desired action: 
+High Score: 2
+
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [2]
+Enter number of your desired action: 
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [1]
+Enter number of your desired action: 
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [3]
+Enter number of your desired action: 
+Enter index of die you want to roll (Dice are indexed from 0): 
+Usage: # between 0 and number of dice exclusive
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [3]
+Enter number of your desired action: 
+Enter index of die you want to roll (Dice are indexed from 0): 
+Usage: # between 0 and number of dice exclusive
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [3]
+Enter number of your desired action: 
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [3]
+Enter number of your desired action: 
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [3]
+Enter number of your desired action: 
+High Score: 3
+
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [3]
+Enter number of your desired action: 
+Final High Score: 3
+Thanks for playing!
+Enter number of dice in your set: Enter number of sides on each die: [1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [0]
+Enter number of your desired action: 
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [3]
+Enter number of your desired action: 
+Enter index of die you want to roll (Dice are indexed from 0): 
+Usage: # between 0 and number of dice exclusive
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [3]
+Enter number of your desired action: 
+Enter index of die you want to roll (Dice are indexed from 0): 
+Usage: # between 0 and number of dice exclusive
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [3]
+Enter number of your desired action: 
+Enter index of die you want to roll (Dice are indexed from 0): 
+Usage: # between 0 and number of dice exclusive
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [3]
+Enter number of your desired action: 
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [3]
+Enter number of your desired action: 
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [3]
+Enter number of your desired action: 
+High Score: 3
+
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [3]
+Enter number of your desired action: 
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [2]
+Enter number of your desired action: 
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [3]
+Enter number of your desired action: 
+Enter index of die you want to roll (Dice are indexed from 0): 
+Usage: # between 0 and number of dice exclusive
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [3]
+Enter number of your desired action: 
+Enter index of die you want to roll (Dice are indexed from 0): 
+Usage: # between 0 and number of dice exclusive
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [3]
+Enter number of your desired action: 
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [3]
+Enter number of your desired action: 
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [3]
+Enter number of your desired action: 
+High Score: 3
+
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [3]
+Enter number of your desired action: 
+Final High Score: 3
+Thanks for playing!
+Enter number of dice in your set: Enter number of sides on each die: [1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [0]
+Enter number of your desired action: 
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [1]
+Enter number of your desired action: 
+Enter index of die you want to roll (Dice are indexed from 0): 
+Usage: # between 0 and number of dice exclusive
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [1]
+Enter number of your desired action: 
+Enter index of die you want to roll (Dice are indexed from 0): 
+Usage: # between 0 and number of dice exclusive
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [1]
+Enter number of your desired action: 
+Enter index of die you want to roll (Dice are indexed from 0): 
+Usage: # between 0 and number of dice exclusive
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [1]
+Enter number of your desired action: 
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [1]
+Enter number of your desired action: 
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [1]
+Enter number of your desired action: 
+High Score: 1
+
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [1]
+Enter number of your desired action: 
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [4]
+Enter number of your desired action: 
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [4]
+Enter number of your desired action: 
+Enter index of die you want to roll (Dice are indexed from 0): 
+Usage: # between 0 and number of dice exclusive
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [4]
+Enter number of your desired action: 
+Enter index of die you want to roll (Dice are indexed from 0): 
+Usage: # between 0 and number of dice exclusive
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [4]
+Enter number of your desired action: 
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [4]
+Enter number of your desired action: 
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [4]
+Enter number of your desired action: 
+High Score: 4
+
+[1] ROLL ALL THE DICE
+[2] ROLL ONE DIE
+[3] CALCULATE THE SCORE FOR THIS SET
+[4] SAVE THIS SCORE AS HIGH SCORE
+[5] DISPLAY THE HIGH SCORE
+[6] QUIT
+CURRENT DICE SET: [4]
+Enter number of your desired action: 
+Final High Score: 4
+Thanks for playing!
