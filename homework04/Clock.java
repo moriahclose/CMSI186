@@ -23,27 +23,29 @@
  *            Rev      Date     Modified by:  Reason for change/modification
  *           -----  ----------  ------------  -----------------------------------------------------------
  *  @version 1.0.0  2018-02-17  M. Tolliver  Initial writing and release
+ * QUESTION: Are you grading by how your clock runs. If so we need the same epsilon
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+import java.text.DecimalFormat;
 
 public class Clock {
 
   /**
    * private instance data
    */
-    private String time;
-    private double hourHandAngle;
-    private double minuteHandAngle;
-    private double timeSlice;
-    private double angle;
-    private double hour;
-    private double minute;
-    private double second;
-    private final double MAXIMUM_ANGLE = 360.0;
-    private final double MAXIMUM_TIMESLICE = 1800.0;
-    private final double HOUR_IN_A_DAY = 12.0;
-    private final double MIN_IN_AN_HOUR = 60.0;
-    private final double SEC_IN_A_MIN = 60.0;
-    private final double EPSILON = 0.01;
+   private String time;
+   private double hourHandAngle;
+   private double minuteHandAngle;
+   private double timeSlice;
+   private double angle;
+   private double hour;
+   private double minute;
+   private double second;
+   private final double MAXIMUM_ANGLE = 360.0;
+   private final double MAXIMUM_TIMESLICE = 1800.0;
+   private final double HOUR_IN_A_DAY = 12.0;
+   private final double MIN_IN_AN_HOUR = 60.0;
+   private final double SEC_IN_A_MIN = 60.0;
+   private static final double EPSILON = 5;
 
 
    // public constructor:
@@ -55,7 +57,7 @@ public class Clock {
    * Note: parameter must be checked for validity; invalid value must throw "IllegalArgumentException"
    */
    public Clock( double angle , double timeSlice ) {
-     time = "00.00 : 00.00 : 00.00";
+     time = "00 : 00 : 00.00";
      hourHandAngle = 0;
      minuteHandAngle = 0;
      hour = 0.0;
@@ -129,7 +131,7 @@ public class Clock {
       }
 
       /**
-       * @return  boolean; whether or not current angle is equal to the sought angle
+       * @return  boolean of whether the current hand
        */
        public boolean equalsSoughtAngle() {
           return ( Math.abs( this.getHandAngle() - angle ) <= EPSILON ) ? true : false;
@@ -139,16 +141,138 @@ public class Clock {
        * @return  double value of the current angle of the hour hand
        */
        public String toString() {
-         return hour + " : " + minute + " : " + second;
+         String hourAndMinPattern = "00";
+         String secondPattern = "00.00";
+         DecimalFormat formatHAndM = new DecimalFormat(hourAndMinPattern);
+         DecimalFormat formatSec = new DecimalFormat(secondPattern);
+         return formatHAndM.format(hour) + " : " + formatHAndM.format(minute) + " : " + formatSec.format(second);
        }
 
        public static void main( String args[] ) {
-         Clock c = new Clock( 90 , 15 );
-         while ( !c.toString().substring(0, 2).equals( "13" ) ) {
-           if ( c.equalsSoughtAngle() ) {
-             System.out.println( "Time = " + c.toString() + "  Angle = " + c.getHandAngle() );
-           }
-             c.tick();
+         Clock c = new Clock( 90 , 10 );
+         double secTot = 0;
+
+         System.out.println( "TESTS FOR CLOCK" );
+         System.out.println( "  New Clock: " + c.toString() + "\n" );
+
+         // TESTING tick()
+         System.out.println( "  Testing tick(), timeSlice 10.0 seconds" );
+         for ( int i = 0; i < 5; i++ ) {
+           c.tick();
+           secTot += c.timeSlice;
+           System.out.println( "    " + c.toString() + " total seconds: " + secTot );
          }
+
+         System.out.println( "  Testing tick(), timeSlice 100.0 seconds" );
+         c.timeSlice = 100;
+         for ( int i = 0; i < 5; i++ ) {
+           c.tick();
+           secTot += c.timeSlice;
+           System.out.println( "    " + c.toString() + " total seconds: " + secTot );
+         }
+
+         System.out.println( "  Testing tick(), timeSlice 1507.0 seconds" );
+         c.timeSlice = 1507;
+         for ( int i = 0; i < 5; i++ ) {
+           c.tick();
+           secTot += c.timeSlice;
+           System.out.println( "    " + c.toString() + " total seconds: " + secTot );
+         }
+
+         System.out.println( "  Testing tick(), timeSlice 1789.0 seconds" );
+         c.timeSlice = 1789;
+         for ( int i = 0; i < 5; i++ ) {
+           c.tick();
+           secTot += c.timeSlice;
+           System.out.println( "    " + c.toString() + " total seconds: " + secTot );
+         }
+
+         System.out.println( "  Testing tick(), timeSlice 0.123 seconds" );
+         c.timeSlice = 0.123;
+         for ( int i = 0; i < 5; i++ ) {
+           c.tick();
+           secTot += c.timeSlice;
+          System.out.println( "    " + c.toString() + " total seconds: " + secTot );
+         }
+
+         // TESTING getHourHandAngle()
+         System.out.println( "\nTESTING getHourHandAngle() " );
+
+         System.out.println( "  Testing getHourHandAngle() for current time " + c.toString() );
+         System.out.println( ( Math.abs( c.getHourHandAngle() - 141.922) <= EPSILON ) ? "   PASSED" : "    Should have gotten 141.92  got " + c.getHourHandAngle() );
+
+         c.timeSlice = 1800;
+         c.tick();
+         System.out.println( "  Testing getHourHandAngle() for current time " + c.toString() );
+         System.out.println( ( Math.abs( c.getHourHandAngle() - 156.922) <= EPSILON ) ? "   PASSED" : "    Should have gotten 156.922 " + c.getHourHandAngle() );
+
+         c.timeSlice = 350;
+         c.tick();
+         System.out.println( "  Testing getHourHandAngle() for current time " + c.toString() );
+         System.out.println( ( Math.abs( c.getHourHandAngle() - 159.838) <= EPSILON ) ? "   PASSED" : "    Should have gotten 159.838  got " + c.getHourHandAngle() );
+
+         c.timeSlice = 1000;
+         c.tick();
+         System.out.println( "  Testing getHourHandAngle() for current time " + c.toString() );
+         System.out.println( ( Math.abs( c.getHourHandAngle() - 168.171) <= EPSILON ) ? "   PASSED" : "    Should have gotten 168.171  got " + c.getHourHandAngle() );
+
+         // TESTING getMinuteHandAngle()
+         System.out.println( "\nTESTING getMinuteHandAngle() " );
+
+         System.out.println( "  Testing getMinuteHandAngle() for current time " + c.toString() );
+         System.out.println( ( Math.abs( c.getMinuteHandAngle() - 218.0615) <= EPSILON ) ? "   PASSED" : "    Should have gotten 218.0615  got " + c.getMinuteHandAngle() );
+
+         c.timeSlice = 1800;
+         c.tick();
+         System.out.println( "  Testing getMinuteHandAngle() for current time " + c.toString() );
+         System.out.println( ( Math.abs( c.getMinuteHandAngle() - 38.0615) <= EPSILON ) ? "   PASSED" : "    Should have gotten 38.0615 got " + c.getMinuteHandAngle() );
+
+         c.timeSlice = 1350.55;
+         c.tick();
+         System.out.println( "  Testing getMinuteHandAngle() for current time " + c.toString() );
+         System.out.println( ( Math.abs( c.getMinuteHandAngle() - 173.116) <= EPSILON ) ? "   PASSED" : "    Should have gotten 173.116 got " + c.getMinuteHandAngle() );
+
+         c.timeSlice = 1000;
+         c.tick();
+         System.out.println( "  Testing getMinuteHandAngle() for current time " + c.toString() );
+         System.out.println( ( Math.abs( c.getMinuteHandAngle() - 273.1164) <= EPSILON ) ? "   PASSED" : "    Should have gotten 273.1164  got " + c.getMinuteHandAngle() );
+
+         // TESTING getHandAngle()
+         System.out.println( "\nTESTING getHandAngle() " );
+
+         System.out.println( "  Testing getHandAngle() for current time " + c.toString() );
+         System.out.println( ( Math.abs( c.getHandAngle() - 70.3567) <= EPSILON ) ? "   PASSED" : "    Should have gotten 70.3567  got " + c.getHandAngle() );
+
+         c.timeSlice = 1532.602;
+         c.tick();
+         System.out.println( "  Testing getHandAngle() for current time " + c.toString() );
+         System.out.println( ( Math.abs( c.getHandAngle() - 149.154) <= EPSILON ) ? "   PASSED" : "    Should have gotten 149.154 got " + c.getHandAngle() );
+
+         c.timeSlice = 1350.55;
+         c.tick();
+         System.out.println( "  Testing getHandAngle() for current time " + c.toString() );
+         System.out.println( ( Math.abs( c.getHandAngle() - 25.354) <= EPSILON ) ? "   PASSED" : "    Should have gotten 25.354 got " + c.getHandAngle() );
+
+         c.timeSlice = 1234;
+         c.tick();
+         System.out.println( "  Testing getHandAngle() for current time " + c.toString() );
+         System.out.println( ( Math.abs( c.getHandAngle() - 87.762) <= EPSILON ) ? "   PASSED" : "    Should have gotten 87.762  got " + c.getHandAngle() );
+
+         // TESTING equalsSoughtAngle()
+         System.out.println( "\nTESTING equalsSoughtAngle() " );
+         c = new Clock( 90 , 60 );
+         int count = 0;
+         while ( !c.toString().substring(0 , 2).equals("12") ) {
+
+           if ( c.equalsSoughtAngle() ) {
+             System.out.println( "     " + c.toString() );
+             count++;
+           }
+           // else {
+           //   System.out.println( " angle not found at " + c.toString() + " angle = " + c.getHandAngle() );
+           // }
+           c.tick();
+         }
+         System.out.println(count);
        }
  }
