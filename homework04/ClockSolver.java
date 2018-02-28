@@ -1,51 +1,78 @@
 /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *  File name     :  ClockSolver.java
  *  Purpose       :  The main program for the ClockSolver class
- *  @author       :  Moriah Tolliver
- *  Date written  :  2018-02-28
- *  Description   :  Runs a discrete clock simulation and prints when the hands of the clock are at the user specified angle
- *
+ *  @see
+ *  @author       :  B.J. Johnson
+ *  Date written  :  2017-02-28
+ *  Description   :  This class provides a bunch of methods which may be useful for the ClockSolver class
+ *                   for Homework 4, part 1.  Includes the following:
+  *
+ *  Notes         :  None right now.  I'll add some as they occur.
+ *  Warnings      :  None
  *  Exceptions    :  IllegalArgumentException when the input arguments are "hinky"
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *  Revision History
- *  ----------------
+ *  Revision Histor
+ *  ---------------
  *            Rev      Date     Modified by:  Reason for change/modification
  *           -----  ----------  ------------  -----------------------------------------------------------
- *  @version 1.0.0  2017-02-28  M. Tolliver   Initial writing and release
+ *  @version 1.0.0  2017-02-28  B.J. Johnson  Initial writing and release
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
 public class ClockSolver {
+  /**
+   *  Class field definintions go here
+   */
+   private static final double MAX_NUM_OF_TOTAL_SECONDS = 43200.0;
+   private static final double EPSILON_VALUE = 5;      // small value for double-precision comparisons
 
-  public static void main(String args[] ) {
+  /**
+   *  Method to handle all the input arguments from the command line
+   *   this sets up the variables for the simulation
+   */
+   public void handleInitialArguments( String args[] ) {
+     // args[0] specifies the angle for which you are looking
+     //  your simulation will find all the angles in the 12-hour day at which those angles occur
+     // args[1] if present will specify a time slice value; if not present, defaults to 60 seconds
 
-    // initialize epsilon value
-    double EPSILON = 5;
 
-    // check validity and initialize angle value
-    double angle = 0;
-    try { angle = Double.parseDouble( args[0] ); }
-    catch (Exception e) { System.out.println( "Usage: java ClockSolver <degrees> [time interval]"); System.exit(1); }
+   }
 
-    // check validity and initialize timeSlice value;
-    // changes timeSlice to 60 if input in invalid or not there
-    double timeSlice = 60.0;
-    try { timeSlice = Double.parseDouble( args[1] ); }
-    catch (Exception e) { System.out.println( "Invalid Time Slice Argument" ); }
+  /**
+   *  The main program starts here
+   *  remember the constraints from the project description
+   *  @see  http://bjohnson.lmu.build/cmsi186web/homework04.html
+   *  @param  args  String array of the arguments from the command line
+   *                args[0] is the angle for which we are looking
+   *                args[1] is the time slice; this is optional and defaults to 60 seconds
+   */
+   public static void main( String args[] ) {
+     double angle = 0.0;
+     double timeSlice = 0.0;
 
-    // create new clock
-    Clock c = new Clock( angle , timeSlice );
+     System.out.println( "\n   Hello world, from the ClockSolver program!!\n\n" ) ;
+     if( 0 == args.length ) {
+        System.out.println( "   Sorry you must enter at least one argument\n" +
+                            "   Usage: java ClockSolver <angle> [timeSlice]\n" +
+                            "   Please try again..........." );
+        System.exit( 1 );
+     }
 
-    // let user know program is working
-    System.out.println( " \n Clock is running... \n" );
-    System.out.println( " Looking for angle " + angle + " at time intervals of " + timeSlice + " seconds");
-    System.out.println( "\n Found Angle " + angle + " At Times: " );
+     Clock clock = new Clock();
 
-    // run clock until 12 hours has passed
-    // time 00 : 00 : 00 = 12 o'clock
-    while ( !c.toString().substring(0,2).equals("12") ) {
-      c.tick();                                                     // increment clock by timeSlice
-      if ( Math.abs( c.getHandAngle() - angle ) <= EPSILON ) {      // check if clock hand angle is equal to wanted angle
-        System.out.println( "    " + c.toString() );                // print times of when wanted angle is found
+     try { angle = clock.validateAngleArg( args[0] ); }
+     catch (Exception e) { System.out.println( "Angle argument must be between 0 and 360 degrees inclusive." ); }
+
+     try { timeSlice = clock.validateTimeSliceArg( args[1] ); }
+     catch (Exception e) { timeSlice = clock.validateTimeSliceArg(""); } // will set timeSlice to 60.0
+
+     System.out.println("Clock is running...");
+     System.out.println( " \nFound target angle of " + angle + " at times: " );
+     while( clock.getTotalSeconds() < MAX_NUM_OF_TOTAL_SECONDS ) {
+        if ( Math.abs( clock.getHandAngle() -  angle ) <= EPSILON_VALUE ) {
+          System.out.println( "   " + clock.toString() );
+        }
+        clock.tick();
       }
-    }
-  }
+      System.exit(0);
+   }
 }
