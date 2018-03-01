@@ -1,9 +1,8 @@
 /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *  File name     :  ClockSolver.java
  *  Purpose       :  The main program for the ClockSolver class
- *  @see
  *  @author       :  Moriah Tolliver
- *  Date written  :  2017-02-28
+ *  Date written  :  2018-03-01
  *  Description   :  This class provides a bunch of methods which may be useful for the ClockSolver class
  *                   for Homework 4, part 1.  Includes the following:
  *  Exceptions    :  IllegalArgumentException when the input arguments are "hinky"
@@ -12,28 +11,11 @@
  *  ---------------
  *            Rev      Date     Modified by:  Reason for change/modification
  *           -----  ----------  ------------  -----------------------------------------------------------
- *  @version 1.0.0  2017-02-28  B.J. Johnson  Initial writing and release
+ *  @version 1.0.0  2018-03-01  M. Tolliver  Initial writing and release
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 public class ClockSolver {
-  /**
-   *  Class field definintions go here
-   */
-   private static final double MAX_NUM_OF_TOTAL_SECONDS = 43200.0;
-   private static final double EPSILON_VALUE = 5;      // small value for double-precision comparisons
-
-  /**
-   *  Method to handle all the input arguments from the command line
-   *   this sets up the variables for the simulation
-   */
-   public void handleInitialArguments( String args[] ) {
-     // args[0] specifies the angle for which you are looking
-     //  your simulation will find all the angles in the 12-hour day at which those angles occur
-     // args[1] if present will specify a time slice value; if not present, defaults to 60 seconds
-
-
-   }
-
+  
   /**
    *  The main program starts here
    *  remember the constraints from the project description
@@ -43,8 +25,11 @@ public class ClockSolver {
    *                args[1] is the time slice; this is optional and defaults to 60 seconds
    */
    public static void main( String args[] ) {
+
+     double MAX_NUM_OF_TOTAL_SECONDS = 43200.0;
+     double EPSILON_VALUE = .5;      // small value for double-precision comparisons
      double angle = 0.0;
-     double timeSlice = 0.0;
+     double timeSlice = 3;
 
      System.out.println( "\n   Hello world, from the ClockSolver program!!\n\n" ) ;
      if( 0 == args.length ) {
@@ -63,6 +48,7 @@ public class ClockSolver {
      catch (Exception e) { timeSlice = clock.validateTimeSliceArg(""); } // will set timeSlice to 60.0
 
      System.out.println("Clock is running...");
+     System.out.println( "Looking for angle " + angle + " with time intervals of " + timeSlice + " seconds." );
      System.out.println( " \nFound target angle of " + angle + " at times: " );
      while( clock.getTotalSeconds() < MAX_NUM_OF_TOTAL_SECONDS ) {
         if ( Math.abs( clock.getHandAngle() -  angle ) <= EPSILON_VALUE ) {
@@ -70,6 +56,7 @@ public class ClockSolver {
         }
         clock.tick();
       }
-      System.exit(0);
+
+      System.exit( 0 );
    }
 }
