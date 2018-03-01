@@ -46,6 +46,8 @@ public class ClockSolver {
 
      try { timeSlice = clock.validateTimeSliceArg( args[1] ); }
      catch (Exception e) { timeSlice = clock.validateTimeSliceArg(""); } // will set timeSlice to 60.0
+     
+     angle = ( angle > 180 ) ? angle - 180 : angle;
 
      System.out.println("Clock is running...");
      System.out.println( "Looking for angle " + angle + " with time intervals of " + timeSlice + " seconds." );
