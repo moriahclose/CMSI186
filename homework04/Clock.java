@@ -1,8 +1,8 @@
 /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *  File name     :  Clock.java
  *  Purpose       :  Provides a class defining methods for the ClockSolver class
- *  @author       :  B.J. Johnson
- *  Date written  :  2017-02-28
+ *  @author       :  Moriah Tolliver
+ *  Date written  :  2018-03-01
  *  Description   :  This class provides a bunch of methods which may be useful for the ClockSolver class
  *                   for Homework 4, part 1.  Includes the following:
  *
@@ -10,11 +10,11 @@
  *  Warnings      :  None
  *  Exceptions    :  IllegalArgumentException when the input arguments are "hinky"
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *  Revision Histor
- *  ---------------
+ *  Revision History
+ *  ----------------
  *            Rev      Date     Modified by:  Reason for change/modification
  *           -----  ----------  ------------  -----------------------------------------------------------
- *  @version 1.0.0  2017-02-28  B.J. Johnson  Initial writing and release
+ *  @version 1.0.0  2018-03-01  M. Tolliver  Initial writing and release
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 import java.text.DecimalFormat;
 
@@ -98,7 +98,7 @@ public class Clock {
    public double validateTimeSliceArg( String argValue ) {
 
       try { timeSlice = Double.parseDouble( argValue ); }
-      catch (Exception e) { timeSlice = DEFAULT_TIME_SLICE_IN_SECONDS; }
+    catch (Exception e) { timeSlice = DEFAULT_TIME_SLICE_IN_SECONDS; }
 
       if ( timeSlice <= 0 || timeSlice > MAXIMUM_TIME_SLICE ) {
         timeSlice = DEFAULT_TIME_SLICE_IN_SECONDS;
@@ -130,7 +130,7 @@ public class Clock {
    *  @return double-precision value of the angle between the two hands
    */
    public double getHandAngle() {
-      return Math.abs( this.getMinuteHandAngle() - this.getHourHandAngle() );
+      return ( Math.abs( this.getHourHandAngle() - this.getMinuteHandAngle() ) > 180.0 ) ? ( MAXIMUM_DEGREE_VALUE - Math.abs( this.getHourHandAngle() - this.getMinuteHandAngle() ) ) : Math.abs( this.getHourHandAngle() - this.getMinuteHandAngle() );
    }
 
   /**
