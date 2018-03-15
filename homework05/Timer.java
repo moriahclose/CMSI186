@@ -2,20 +2,17 @@
  *  File name     :  Timer.java
  *  Purpose       :  The main program for the ClockSolver class
  *  @see
- *  @author       :  B.J. Johnson
+ *  @author       :  Moriah Tolliver
  *  Date written  :  2017-02-28
- *  Description   :  This class provides a bunch of methods which may be useful for the ClockSolver class
- *                   for Homework 4, part 1.  Includes the following:
-  *
+ *  Description   :  This class simulates a timer with an input time increment
  *  Notes         :  None right now.  I'll add some as they occur.
  *  Warnings      :  None
- *  Exceptions    :  IllegalArgumentException when the input arguments are "hinky"
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *  Revision Histor
- *  ---------------
+ *  Revision History
+ *  ----------------
  *            Rev      Date     Modified by:  Reason for change/modification
  *           -----  ----------  ------------  -----------------------------------------------------------
- *  @version 1.0.0  2017-02-28  B.J. Johnson  Initial writing and release
+ *  @version 1.0.0  2017-02-28  Moriah Tolliver  Initial writing and release
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 import java.text.DecimalFormat;
 
@@ -70,12 +67,48 @@ public class Timer {
       return formatHAndM.format(hour) + " : " + formatHAndM.format(minute) + " : " + formatSec.format(second);
     }
 
+    // main to test methods
     public static void main( String args[] ) {
       Timer t = new Timer( 1800 );
 
       //TEST tick()
-      for ( int i = 0; i < 50; i++ ) {
-        try { System.out.println( "Time: " + t.toString() ); }
+      System.out.println( "TESTING tick()" );
+
+      System.out.println( " time slice = 1800 seconds");
+      for ( int i = 0; i < 10; i++ ) {
+        try { System.out.println( "    Time: " + t.toString() ); }
+        catch (Exception e) { System.out.println( e ); }
+        t.tick();
+      }
+
+      System.out.println( "\n time slice = 10 seconds");
+      t.timeSlice = 10;
+      for ( int i = 0; i < 10; i++ ) {
+        try { System.out.println( "    Time: " + t.toString() ); }
+        catch (Exception e) { System.out.println( e ); }
+        t.tick();
+      }
+
+      System.out.println( "\n time slice = 12.3 seconds");
+      t.timeSlice = 12.3;
+      for ( int i = 0; i < 10; i++ ) {
+        try { System.out.println( "    Time: " + t.toString() ); }
+        catch (Exception e) { System.out.println( e ); }
+        t.tick();
+      }
+
+      System.out.println( "\n time slice = .456 seconds");
+      t.timeSlice = .456;
+      for ( int i = 0; i < 10; i++ ) {
+        try { System.out.println( "    Time: " + t.toString() ); }
+        catch (Exception e) { System.out.println( e ); }
+        t.tick();
+      }
+
+      //TEST getTotalSeconds()
+      System.out.println( "\nTESTING getTotalSeconds()" );
+      for ( int i = 0; i < 25; i++ ) {
+        try { System.out.println( "    Time: " + t.toString() + " Total Seconds: " + t.getTotalSeconds() ); }
         catch (Exception e) { System.out.println( e ); }
         t.tick();
       }
