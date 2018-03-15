@@ -55,6 +55,13 @@ public class Timer {
        return totalSeconds;
     }
 
+    /**
+     *  Method to fetch the timeSlic
+     *  @return double-precision value the timeSlice
+     */
+     public double getTimeSlice() {
+        return this.timeSlice;
+     }
    /**
     *  Method to return a String representation of this timer
     *  @return String value of the current timer
@@ -122,5 +129,11 @@ public class Timer {
         catch (Exception e) { System.out.println( e ); }
         t.tick();
       }
+
+      //TEST getTimeSlice()
+      System.out.println( "\nTESTING getTimeSlice()" );
+      t.timeSlice = 9;
+      try { System.out.println( "  Current time slice: " + t.getTimeSlice() ); }
+      catch (Exception e) { System.out.println( e ); }
     }
 }
