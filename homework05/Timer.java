@@ -5,7 +5,7 @@
  *  @author       :  Moriah Tolliver
  *  Date written  :  2017-02-28
  *  Description   :  This class simulates a timer with an input time increment
- *  Notes         :  Timer does not validate its arguments for positive times. Timer t = new Timer( -3 ) would create a valid timer declaration
+ *  Notes         :  Timer does not validate its arguments. Timer t = new Timer( -3 ) would create a valid timer declaration
  *  Warnings      :  None
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *  Revision History
@@ -115,7 +115,9 @@ public class Timer {
 
       //TEST getTotalSeconds()
       System.out.println( "\nTESTING getTotalSeconds()" );
+      System.out.println( "   Time slice is incrementing by 10 each time." );
       for ( int i = 0; i < 25; i++ ) {
+        t.timeSlice += 10;
         try { System.out.println( "    Time: " + t.toString() + " Total Seconds: " + t.getTotalSeconds() ); }
         catch (Exception e) { System.out.println( e ); }
         t.tick();
