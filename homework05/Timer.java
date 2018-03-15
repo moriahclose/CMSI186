@@ -1,11 +1,11 @@
 /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *  File name     :  Timer.java
- *  Purpose       :  The main program for the ClockSolver class
+ *  Purpose       :  Create a timer object with methods
  *  @see
  *  @author       :  Moriah Tolliver
  *  Date written  :  2017-02-28
  *  Description   :  This class simulates a timer with an input time increment
- *  Notes         :  None right now.  I'll add some as they occur.
+ *  Notes         :  Timer does not validate its arguments for positive times. Timer t = new Timer( -3 ) would create a valid timer declaration
  *  Warnings      :  None
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *  Revision History
@@ -99,6 +99,14 @@ public class Timer {
 
       System.out.println( "\n time slice = .456 seconds");
       t.timeSlice = .456;
+      for ( int i = 0; i < 10; i++ ) {
+        try { System.out.println( "    Time: " + t.toString() ); }
+        catch (Exception e) { System.out.println( e ); }
+        t.tick();
+      }
+
+      System.out.println( "\n time slice = -3 seconds");
+      t.timeSlice = -3;
       for ( int i = 0; i < 10; i++ ) {
         try { System.out.println( "    Time: " + t.toString() ); }
         catch (Exception e) { System.out.println( e ); }
