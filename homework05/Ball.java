@@ -28,25 +28,29 @@ public class Ball {
     private static final double WEIGHT_IN_POUNDS = 1;
     private static final double RATE_OF_DECREASE = .01;
     private static final double INCHES_IN_FOOT = 12;
+    private static Timer timer;
     private static double speed;
     private static double xPosition;
     private static double yPosition;
+    private static double initXSpeed;
+    private static double initYSpeed;
     private static double xSpeed;
     private static double ySpeed;
-    private static double totalSeconds;
     private static double timeSlice;
 
    /*
     *  Constructor
     */
-    public Ball( double startingX , double startingY , double startingXSpeed , double startingYSpeed , double inputTimeSlice ) {
+    public Ball( double startingX , double startingY , double startingXSpeed , double startingYSpeed, double inputTimeSlice ) {
       this.xSpeed = startingXSpeed;
       this.ySpeed = startingYSpeed;
+      this.initXSpeed = startingXSpeed;
+      this.initYSpeed = startingYSpeed;
       this.speed = Math.sqrt( (xSpeed * xSpeed) + (ySpeed * ySpeed) );
       this.xPosition = startingX;
       this.yPosition = startingY;
+      timer = new Timer( inputTimeSlice );
       this.timeSlice = inputTimeSlice;
-      totalSeconds = 0;
 
     }
 
@@ -55,11 +59,18 @@ public class Ball {
    *  @return  double-precision value of current speed
    */
    public double updateBall() {
-     totalSeconds += timeSlice;
-     speed -= speed * ( RATE_OF_DECREASE * totalSeconds );
+     //update position based on previous speed
+     xPosition += xSpeed;
+     yPosition += ySpeed;
 
-     xPosition += xSpeed * timeSlice;
-     yPosition += ySpeed * timeSlice;
+     //update time
+     timer.tick();
+
+     //update speed
+     xSpeed = xSpeed - ( xSpeed * RATE_OF_DECREASE );
+     ySpeed = ySpeed - ( ySpeed * RATE_OF_DECREASE );
+     speed = Math.sqrt( (xSpeed * xSpeed) + (ySpeed * ySpeed) );
+
      return speed;
    }
 
@@ -91,7 +102,7 @@ public class Ball {
    *  Method to return if the ball's speed is < 1 inch per second
    *  @return  boolean of ball moving
    */
-   public boolean stillMoving() {
+   public boolean isMoving() {
      if ( ( speed * INCHES_IN_FOOT ) < 1 ) {
        return false;
      }
@@ -103,7 +114,15 @@ public class Ball {
    *  @return  double-precision value of total seconds elapsed
    */
    public double getTotalSeconds() {
-     return totalSeconds;
+     return timer.getTotalSeconds();
+   }
+
+   /**
+   *  Method to return string of current time for the ball
+   *  @return  string of time ball is at
+   */
+   public String getBallTimeString() {
+     return timer.toString();
    }
 
    /**
@@ -115,7 +134,7 @@ public class Ball {
      String positionPattern = "00.00";
      DecimalFormat formatSpeed = new DecimalFormat( speedPattern );
      DecimalFormat formatPosition = new DecimalFormat( positionPattern );
-     return "Speed: " + formatSpeed.format( speed ) + "ft/s X-Position: " + formatPosition.format( xPosition ) + "ft Y-Position: " + formatPosition.format( yPosition ) + "ft";
+     return "Position: <" + formatPosition.format( xPosition ) + " , " + formatPosition.format( yPosition ) + "> Speed: <" + formatSpeed.format( xSpeed ) + " , " + formatSpeed.format( ySpeed ) + ">";
    }
 
 
@@ -124,15 +143,17 @@ public class Ball {
     */
     public static void main( String args[] ) {
 
-      Ball b = new Ball( 0 , 0 , 3 , 4 , 10 );
+      Ball b = new Ball( 0 , 0 , 3 , 4 , 1 );
 
-      // TEST decreaseSpeed() and getTotalSeconds()
-      while ( b.stillMoving() ) {
-        try { System.out.println( b.toString() ); }
+      //TEST tick()
+      System.out.println( "TESTING updateBall()" );
+
+      System.out.println( " testing...");
+      for ( int i = 0; i < 20; i++ ) {
+      //while ( b.isMoving()) {
+        try { System.out.println( b.getBallTimeString() ); System.out.println( "    " + b.toString() ); }
         catch (Exception e) { System.out.println( e ); }
         b.updateBall();
       }
-
-
-    }
+   }
 }
