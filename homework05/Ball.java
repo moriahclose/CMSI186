@@ -29,14 +29,14 @@ public class Ball {
     private static final double RATE_OF_DECREASE = .01;
     private static final double INCHES_IN_FOOT = 12;
     private static Timer timer;
-    private static double speed;
+    private static double timeSlice;
     private static double xPosition;
     private static double yPosition;
     private static double initXSpeed;
     private static double initYSpeed;
     private static double xSpeed;
     private static double ySpeed;
-    private static double timeSlice;
+    private static double speed;
 
    /*
     *  Constructor
@@ -58,28 +58,18 @@ public class Ball {
    *  Method to decrease ball's speed by 1% per second and update position
    *  @return  double-precision value of current speed
    */
-   public double updateBall() {
+   public void updateBall() {
      //update position based on previous speed
-     xPosition += xSpeed;
-     yPosition += ySpeed;
+     xPosition += ( xSpeed * timeSlice );
+     yPosition += ( ySpeed * timeSlice );
 
      //update time
-     timer.tick();
+     //timer.tick();
 
      //update speed
-     xSpeed = xSpeed - ( xSpeed * RATE_OF_DECREASE );
-     ySpeed = ySpeed - ( ySpeed * RATE_OF_DECREASE );
+     xSpeed -= ( ( xSpeed * RATE_OF_DECREASE ) * timeSlice );
+     ySpeed -= ( ( ySpeed * RATE_OF_DECREASE ) * timeSlice );
      speed = Math.sqrt( (xSpeed * xSpeed) + (ySpeed * ySpeed) );
-
-     return speed;
-   }
-
-   /**
-   *  Method to return the ball's current speed
-   *  @return  double-precision value of current speed
-   */
-   public double getSpeed() {
-     return speed;
    }
 
    /**
@@ -100,10 +90,14 @@ public class Ball {
 
    /**
    *  Method to return if the ball's speed is < 1 inch per second
+   * if ball is not moving, adjusts position variables to represent
+   * where speed is exactly 0
    *  @return  boolean of ball moving
    */
    public boolean isMoving() {
-     if ( ( speed * INCHES_IN_FOOT ) < 1 ) {
+     if ( Math.abs( speed * INCHES_IN_FOOT ) < 1 ) {
+       xPosition -= xSpeed;
+       yPosition -= ySpeed;
        return false;
      }
      return true;
@@ -130,8 +124,8 @@ public class Ball {
    *  @return  double-precision value of current speed
    */
    public String toString() {
-     String speedPattern = "00.00";
-     String positionPattern = "00.00";
+     String speedPattern = "00.0000";
+     String positionPattern = "00.0000";
      DecimalFormat formatSpeed = new DecimalFormat( speedPattern );
      DecimalFormat formatPosition = new DecimalFormat( positionPattern );
      return "Position: <" + formatPosition.format( xPosition ) + " , " + formatPosition.format( yPosition ) + "> Speed: <" + formatSpeed.format( xSpeed ) + " , " + formatSpeed.format( ySpeed ) + ">";
@@ -143,14 +137,14 @@ public class Ball {
     */
     public static void main( String args[] ) {
 
-      Ball b = new Ball( 0 , 0 , 3 , 4 , 1 );
+      Ball b = new Ball( 2 , 3 , 4 , 11 , 1 );
 
       //TEST tick()
       System.out.println( "TESTING updateBall()" );
 
       System.out.println( " testing...");
-      for ( int i = 0; i < 20; i++ ) {
-      //while ( b.isMoving()) {
+      //for ( int i = 0; i < 20; i++ ) {
+      while ( b.isMoving()) {
         try { System.out.println( b.getBallTimeString() ); System.out.println( "    " + b.toString() ); }
         catch (Exception e) { System.out.println( e ); }
         b.updateBall();
