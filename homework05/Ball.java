@@ -32,8 +32,6 @@ public class Ball {
     private static double timeSlice;
     private static double xPosition;
     private static double yPosition;
-    private static double initXSpeed;
-    private static double initYSpeed;
     private static double xSpeed;
     private static double ySpeed;
     private static double speed;
@@ -44,8 +42,6 @@ public class Ball {
     public Ball( double startingX , double startingY , double startingXSpeed , double startingYSpeed, double inputTimeSlice ) {
       this.xSpeed = startingXSpeed;
       this.ySpeed = startingYSpeed;
-      this.initXSpeed = startingXSpeed;
-      this.initYSpeed = startingYSpeed;
       this.speed = Math.sqrt( (xSpeed * xSpeed) + (ySpeed * ySpeed) );
       this.xPosition = startingX;
       this.yPosition = startingY;
@@ -60,15 +56,15 @@ public class Ball {
    */
    public void updateBall() {
      //update position based on previous speed
-     xPosition += ( xSpeed * timeSlice );
-     yPosition += ( ySpeed * timeSlice );
+     xPosition += xSpeed * timeSlice;
+     yPosition += ySpeed * timeSlice;
 
      //update time
-     //timer.tick();
+     timer.tick();
 
      //update speed
-     xSpeed -= ( ( xSpeed * RATE_OF_DECREASE ) * timeSlice );
-     ySpeed -= ( ( ySpeed * RATE_OF_DECREASE ) * timeSlice );
+     xSpeed *= ( Math.pow( 0.99, timeSlice ) );
+     ySpeed *= ( Math.pow( 0.99, timeSlice ) );
      speed = Math.sqrt( (xSpeed * xSpeed) + (ySpeed * ySpeed) );
    }
 
@@ -137,7 +133,7 @@ public class Ball {
     */
     public static void main( String args[] ) {
 
-      Ball b = new Ball( 2 , 3 , 4 , 11 , 1 );
+      Ball b = new Ball( 10, 10, 1, 1, 2.34 );
 
       //TEST tick()
       System.out.println( "TESTING updateBall()" );
@@ -149,5 +145,7 @@ public class Ball {
         catch (Exception e) { System.out.println( e ); }
         b.updateBall();
       }
+      System.out.println( "Ball at rest at: " + b.getBallTimeString() ); System.out.println( "    " + b.toString() );
+
    }
 }
