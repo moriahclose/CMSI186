@@ -1,21 +1,16 @@
 /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *  File name     :  Ball.java
- *  Purpose       :  The main program for the ClockSolver class
+ *  Purpose       :  This program contains the method for the Ball object
  *  @see
- *  @author       :  B.J. Johnson
- *  Date written  :  2017-02-28
- *  Description   :  This class provides a bunch of methods which may be useful for the ClockSolver class
- *                   for Homework 4, part 1.  Includes the following:
-  *
- *  Notes         :  None right now.  I'll add some as they occur.
- *  Warnings      :  None
- *  Exceptions    :  IllegalArgumentException when the input arguments are "hinky"
+ *  @author       :  Moriah Tolliver
+ *  Date written  :  2018-03-27
+ *  Description   :  This class creates the methods for a Ball object
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *  Revision Histor
- *  ---------------
+ *  Revision History
+ *  ----------------
  *            Rev      Date     Modified by:  Reason for change/modification
  *           -----  ----------  ------------  -----------------------------------------------------------
- *  @version 1.0.0  2017-02-28  B.J. Johnson  Initial writing and release
+ *  @version 1.0.0  2018-03-27  M. Tolliver   Initial writing and release
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 import java.text.DecimalFormat;
 
@@ -24,11 +19,7 @@ public class Ball {
   /*
    *  Class field definitions
    */
-    private static final double Epsilon = 9;
-    private static final double WEIGHT_IN_POUNDS = 1;
-    private static final double RATE_OF_DECREASE = .01;
     private static final double INCHES_IN_FOOT = 12;
-    private static Timer timer;
     private static double timeSlice;
     private static double xPosition;
     private static double yPosition;
@@ -45,9 +36,7 @@ public class Ball {
       this.speed = Math.sqrt( (xSpeed * xSpeed) + (ySpeed * ySpeed) );
       this.xPosition = startingX;
       this.yPosition = startingY;
-      timer = new Timer( inputTimeSlice );
       this.timeSlice = inputTimeSlice;
-
     }
 
    /**
@@ -58,9 +47,6 @@ public class Ball {
      //update position based on previous speed
      xPosition += xSpeed * timeSlice;
      yPosition += ySpeed * timeSlice;
-
-     //update time
-     timer.tick();
 
      //update speed
      xSpeed *= ( Math.pow( 0.99, timeSlice ) );
@@ -100,22 +86,6 @@ public class Ball {
    }
 
    /**
-   *  Method to return the totalSeconds
-   *  @return  double-precision value of total seconds elapsed
-   */
-   public double getTotalSeconds() {
-     return timer.getTotalSeconds();
-   }
-
-   /**
-   *  Method to return string of current time for the ball
-   *  @return  string of time ball is at
-   */
-   public String getBallTimeString() {
-     return timer.toString();
-   }
-
-   /**
    *  Method to return the ball's current speed
    *  @return  double-precision value of current speed
    */
@@ -133,19 +103,116 @@ public class Ball {
     */
     public static void main( String args[] ) {
 
-      Ball b = new Ball( 10, 10, 1, 1, 2.34 );
+      Ball b = new Ball( 10, 10, 1, 1, 1 );
+      String tab = "    "; //String used to simulate tab in prints
 
-      //TEST tick()
+      //TEST updateBall()
       System.out.println( "TESTING updateBall()" );
 
-      System.out.println( " testing...");
-      //for ( int i = 0; i < 20; i++ ) {
-      while ( b.isMoving()) {
-        try { System.out.println( b.getBallTimeString() ); System.out.println( "    " + b.toString() ); }
+      System.out.println( "\n" + tab + "time slice = 1s" );
+      for ( int i = 0; i < 10; i++ ) {
+        try { System.out.println( tab + tab + b.toString() ); }
         catch (Exception e) { System.out.println( e ); }
         b.updateBall();
       }
-      System.out.println( "Ball at rest at: " + b.getBallTimeString() ); System.out.println( "    " + b.toString() );
+
+      System.out.println( "\n" + tab + "time slice = 10s" );
+      b.timeSlice = 10;
+
+      for ( int i = 0; i < 10; i++ ) {
+        try { System.out.println( tab + tab + b.toString() ); }
+        catch (Exception e) { System.out.println( e ); }
+        b.updateBall();
+      }
+
+      System.out.println( "\n" + tab + "time slice = 15s" );
+      b.timeSlice = 15;
+      for ( int i = 0; i < 10; i++ ) {
+        try { System.out.println( tab + tab + b.toString() ); }
+        catch (Exception e) { System.out.println( e ); }
+        b.updateBall();
+      }
+
+      System.out.println( "\n" + tab + "time slice = 2.34s" );
+      b.timeSlice = 2.34;
+      for ( int i = 0; i < 10; i++ ) {
+        try { System.out.println( tab + tab + b.toString() ); }
+        catch (Exception e) { System.out.println( e ); }
+        b.updateBall();
+      }
+
+      System.out.println( "\n" + tab + "time slice = 0.03s" );
+      b.timeSlice = 0.03;
+      for ( int i = 0; i < 10; i++ ) {
+        try { System.out.println( tab + tab + b.toString() ); }
+        catch (Exception e) { System.out.println( e ); }
+        b.updateBall();
+      }
+
+      //TEST getXPosition()
+      System.out.println( "\nTESTING getXPosition()" );
+
+      System.out.println( "\n" + tab + "Ball with start position: <0 , 0> start speed <10 , 10> time slice: 1s" );
+      b = new Ball( 0 , 0 , 10 , 10 , 1 );
+      for ( int i = 0; i < 5; i++ ) {
+        try { System.out.println( tab + tab + "x-position: " + b.getXPosition() ); }
+        catch (Exception e) { System.out.println( e ); }
+        b.updateBall();
+      }
+
+      System.out.println( "\n" + tab + "Ball with start position: <40 , 40> start speed <-10 , -10> time slice: 1s" );
+      b = new Ball( 40 , 40 , -10 , -10 , 1 );
+      for ( int i = 0; i < 5; i++ ) {
+        try { System.out.println( tab + tab + "x-position: " + b.getXPosition() ); }
+        catch (Exception e) { System.out.println( e ); }
+        b.updateBall();
+      }
+
+      System.out.println( "\n" + tab + "Ball with start position: <5 , 15> start speed <11 , 12> time slice: 10s" );
+      b = new Ball( 5 , 15 , 11 , 12 , 10 );
+      for ( int i = 0; i < 5; i++ ) {
+        try { System.out.println( tab + tab + "x-position: " + b.getXPosition() ); }
+        catch (Exception e) { System.out.println( e ); }
+        b.updateBall();
+      }
+
+      //TEST getYPosition()
+      System.out.println( "\nTESTING getYPosition()" );
+
+      System.out.println( "\n" + tab + "Ball with start position: <0 , 0> start speed <10 , 10> time slice: 1s" );
+      b = new Ball( 0 , 0 , 10 , 10 , 1 );
+      for ( int i = 0; i < 5; i++ ) {
+        try { System.out.println( tab + tab + "y-position: " + b.getYPosition() ); }
+        catch (Exception e) { System.out.println( e ); }
+        b.updateBall();
+      }
+
+      System.out.println( "\n" + tab + "Ball with start position: <40 , 40> start speed <-10 , -10> time slice: 1s" );
+      b = new Ball( 40 , 40 , -10 , -10 , 1 );
+      for ( int i = 0; i < 5; i++ ) {
+        try { System.out.println( tab + tab + "y-position: " + b.getYPosition() ); }
+        catch (Exception e) { System.out.println( e ); }
+        b.updateBall();
+      }
+
+      System.out.println( "\n" + tab + "Ball with start position: <5 , 15> start speed <11 , 12> time slice: 10s" );
+      b = new Ball( 5 , 15 , 11 , 12 , 10 );
+      for ( int i = 0; i < 5; i++ ) {
+        try { System.out.println( tab + tab + "y-position: " + b.getYPosition() ); }
+        catch (Exception e) { System.out.println( e ); }
+        b.updateBall();
+      }
+
+      //TESTING isMoving()
+      System.out.println( "\nTESTING isMoving()" );
+
+      System.out.println( "\n" + tab + "Ball with start position: <5 , 15> start speed <11 , 12> time slice: 10s" );
+      b = new Ball( 5 , 15 , 11 , 12 , 20 );
+      for ( int i = 0; i < 40; i++ ) {
+        try { System.out.println( tab + tab + "is moving: " + b.isMoving() + tab + b.toString() ); }
+        catch (Exception e) { System.out.println( e ); }
+        b.updateBall();
+      }
 
    }
 }
