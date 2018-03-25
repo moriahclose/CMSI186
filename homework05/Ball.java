@@ -1,6 +1,6 @@
 /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *  File name     :  Ball.java
- *  Purpose       :  This program contains the method for the Ball object
+ *  Purpose       :  The main program for the ClockSolver class
  *  @see
  *  @author       :  Moriah Tolliver
  *  Date written  :  2018-03-27
@@ -19,13 +19,13 @@ public class Ball {
   /*
    *  Class field definitions
    */
-    private static final double INCHES_IN_FOOT = 12;
-    private static double timeSlice;
-    private static double xPosition;
-    private static double yPosition;
-    private static double xSpeed;
-    private static double ySpeed;
-    private static double speed;
+    private final double INCHES_IN_FOOT = 12;
+    private double timeSlice;
+    private double xPosition;
+    private double yPosition;
+    private double xSpeed;
+    private double ySpeed;
+    private double speed;
 
    /*
     *  Constructor
