@@ -3,7 +3,7 @@
  *  Purpose       :  Create a timer object with methods
  *  @see
  *  @author       :  Moriah Tolliver
- *  Date written  :  2017-02-28
+ *  Date written  :  2018-03-27
  *  Description   :  This class simulates a timer with an input time increment
  *  Notes         :  Timer does not validate its arguments. Timer t = new Timer( -3 ) would create a valid timer declaration
  *  Warnings      :  None
@@ -12,23 +12,23 @@
  *  ----------------
  *            Rev      Date     Modified by:  Reason for change/modification
  *           -----  ----------  ------------  -----------------------------------------------------------
- *  @version 1.0.0  2017-02-28  Moriah Tolliver  Initial writing and release
+ *  @version 1.0.0  2018-03-27  Moriah Tolliver  Initial writing and release
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 import java.text.DecimalFormat;
 
 public class Timer {
 
   // classwide variables
-  private static final double SECONDS_IN_HOUR = 3600.0;
-  private static final double SECONDS_IN_MINUTE = 60.0;
-  public static double timeSlice;
-  public static double totalSeconds;
-  public static double hour;
-  public static double minute;
-  public static double second;
+  private final double SECONDS_IN_HOUR = 3600.0;
+  private final double SECONDS_IN_MINUTE = 60.0;
+  public double timeSlice;
+  public double totalSeconds;
+  public double hour;
+  public double minute;
+  public double second;
 
-  public Timer( double timeSlice ) {
-    this.timeSlice = timeSlice;
+  public Timer( double inputTimeSlice ) {
+    timeSlice = inputTimeSlice;
     totalSeconds = 0;
   }
 
@@ -77,6 +77,12 @@ public class Timer {
     // main to test methods
     public static void main( String args[] ) {
       Timer t = new Timer( 1800 );
+      t.tick();
+      t.tick();
+      t.tick();
+      Timer l = new Timer( 30);
+      System.out.println( t.toString() );
+      System.out.println( l.toString() );
 
       //TEST tick()
       System.out.println( "TESTING tick()" );
@@ -132,7 +138,7 @@ public class Timer {
 
       //TEST getTimeSlice()
       System.out.println( "\nTESTING getTimeSlice()" );
-      t.timeSlice = 9;
+      t.timeSlice = 92;
       try { System.out.println( "  Current time slice: " + t.getTimeSlice() ); }
       catch (Exception e) { System.out.println( e ); }
     }
