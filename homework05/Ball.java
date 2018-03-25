@@ -86,15 +86,19 @@ public class Ball {
    }
 
    /**
-   *  Method to return the ball's current speed
-   *  @return  double-precision value of current speed
+   *  @return  string of the ball's position and speed
    */
    public String toString() {
      String speedPattern = "00.0000";
      String positionPattern = "00.0000";
      DecimalFormat formatSpeed = new DecimalFormat( speedPattern );
      DecimalFormat formatPosition = new DecimalFormat( positionPattern );
-     return "Position: <" + formatPosition.format( xPosition ) + " , " + formatPosition.format( yPosition ) + "> Speed: <" + formatSpeed.format( xSpeed ) + " , " + formatSpeed.format( ySpeed ) + ">";
+     if ( this.isMoving() ) {
+       return "Position: <" + formatPosition.format( xPosition ) + " , " + formatPosition.format( yPosition ) + "> Speed: <" + formatSpeed.format( xSpeed ) + " , " + formatSpeed.format( ySpeed ) + ">";
+     }
+     else {
+       return "Position: <" + formatPosition.format( xPosition ) + " , " + formatPosition.format( yPosition ) + ">        <at rest>" ;
+     }
    }
 
 
