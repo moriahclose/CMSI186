@@ -15,6 +15,7 @@
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 
 public class SoccerSim {
 
@@ -41,7 +42,7 @@ public class SoccerSim {
        timer = new Timer( DEFAULT_TIMESLICE );
 
       // initialize pole
-       pole = new Ball( (double)Math.floor( ( Math.random() * MAX_X ) + 1  ) , (double)Math.floor( ( Math.random() * MAX_Y ) + 1 ) , 0 , 0 , DEFAULT_TIMESLICE );
+      pole = new Ball( (double)Math.floor( ( Math.random() * MAX_X ) + 1  ) , (double)Math.floor( ( Math.random() * MAX_Y ) + 1 ) , 0 , 0 , DEFAULT_TIMESLICE );
 
        // initialize array of balls
        for ( int argIndex = 0; argIndex < args.length; argIndex += 4 ) {
@@ -56,7 +57,7 @@ public class SoccerSim {
 
      else if ( args.length % 4 == 1 && args.length >= 4 ) {
        // initialize pole
-       try { pole = new Ball( (double)Math.floor( ( Math.random() * MAX_X ) + 1  ) , (double)Math.floor( ( Math.random() * MAX_Y ) + 1 ) , 0 , 0 , Double.parseDouble( args[ args.length - 1 ] ) ); }
+     try {pole = new Ball( (double)Math.floor( ( Math.random() * MAX_X ) + 1  ) , (double)Math.floor( ( Math.random() * MAX_Y ) + 1 ) , 0 , 0 , Double.parseDouble( args[ args.length - 1 ] ) ); }
        catch(Exception e){ System.out.println( doubleError ); System.exit( 1 ); }
 
        // initialize timer
@@ -105,35 +106,32 @@ public class SoccerSim {
          }
        }
 
-       //steps 1.print 2.check for collisions 2a. if collsion stop and print 2b.if no collision update num of balls that are still moving 3.remove balls that have gone out of bounds
-       //remove balls from check array that are out of Bounds
-
        // check for collisions
        for ( int checkBallInd = 0; checkBallInd < inBounds.size()-1; checkBallInd++ ) {
          for ( int ballInd = checkBallInd + 1; ballInd < inBounds.size(); ballInd++ ) {
            if ( Math.sqrt( Math.pow( (inBounds.get( checkBallInd ).getXPosition() - inBounds.get( ballInd ).getXPosition()) , 2 ) + Math.pow( (inBounds.get( checkBallInd ).getYPosition() - inBounds.get( ballInd ).getYPosition()) , 2 ) ) <= DIAMETER ) {
-             System.out.println( "COLLISION FOR BALL " + balls.indexOf( inBounds.get( checkBallInd ) ) + " & " + balls.indexOf( inBounds.get( ballInd ) ) );
+             String end = ( balls.indexOf( inBounds.get( ballInd ) ) == -1 ) ? "Pole" : Integer.toString( balls.indexOf( inBounds.get( ballInd ) ) );
+             System.out.println( "COLLISION FOR BALL " + balls.indexOf( inBounds.get( checkBallInd ) ) + " & " + end );
              System.exit(0);
            }
          }
        }
 
        //check if balls are still in motion
-       int atRest = 0; // number of balls still moving and in bounds
-
        for ( Ball ba : balls ) {
-         if ( ba.isMoving() ) {
-           ba.updateBall();
+         if ( !ba.isMoving() ) {
+           playing.add( ba );
          }
          else {
-           playing.add( ba );
+           ba.updateBall();
          }
        }
 
-       //check if balls are in bounds
-       for ( Ball ball : inBounds ) {
+       //update balls that are in bounds
+       for ( Iterator<Ball> it = inBounds.iterator(); it.hasNext(); ) {
+         Ball ball = it.next();
          if ( Math.abs( ball.getXPosition() ) > MAX_X || Math.abs( ball.getYPosition() ) > MAX_Y ) {
-           inBounds.remove ( ball );
+           it.remove();
            playing.add( ball );
          }
        }
