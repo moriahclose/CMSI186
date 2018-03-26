@@ -19,7 +19,7 @@ public class Ball {
   /*
    *  Class field definitions
    */
-    private final double INCHES_IN_FOOT = 12;
+    private final double MINIMUM_SPEED = 0.083;
     private double timeSlice;
     private double xPosition;
     private double yPosition;
@@ -77,9 +77,7 @@ public class Ball {
    *  @return  boolean of ball moving
    */
    public boolean isMoving() {
-     if ( Math.abs( speed * INCHES_IN_FOOT ) < 1 ) {
-       xPosition -= xSpeed;
-       yPosition -= ySpeed;
+     if ( Math.abs( speed ) < MINIMUM_SPEED ) {
        return false;
      }
      return true;
@@ -94,7 +92,7 @@ public class Ball {
      DecimalFormat formatSpeed = new DecimalFormat( speedPattern );
      DecimalFormat formatPosition = new DecimalFormat( positionPattern );
      if ( this.isMoving() ) {
-       return "Position: <" + formatPosition.format( xPosition ) + " , " + formatPosition.format( yPosition ) + "> Speed: <" + formatSpeed.format( xSpeed ) + " , " + formatSpeed.format( ySpeed ) + ">";
+       return "Position: <" + formatPosition.format( xPosition ) + " , " + formatPosition.format( yPosition ) + "> Velocity: <" + formatSpeed.format( xSpeed ) + " , " + formatSpeed.format( ySpeed ) + ">";
      }
      else {
        return "Position: <" + formatPosition.format( xPosition ) + " , " + formatPosition.format( yPosition ) + ">        <at rest>" ;
