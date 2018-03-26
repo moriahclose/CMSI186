@@ -3,21 +3,18 @@
  *  Purpose       :  The main program for the SoccerSim class
  *  @see
  *  @author       :  Moriah Tolliver
- *  Date written  :  2017-02-28
- *  Description   :  This class provides a bunch of methods which may be useful for the ClockSolver class
- *                   for Homework 4, part 1.  Includes the following:
-  *
+ *  Date written  :  2018-03-27
  *  Notes         :  Pole made using a stationary ball with random position
- *  Warnings      :  None
- *  Exceptions    :  IllegalArgumentException when the input arguments are "hinky"
+ *                :  Field set to 2000 x 2000
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *  Revision Histor
- *  ---------------
+ *  Revision History
+ *  ----------------
  *            Rev      Date     Modified by:  Reason for change/modification
  *           -----  ----------  ------------  -----------------------------------------------------------
- *  @version 1.0.0  2017-02-28  B.J. Johnson  Initial writing and release
+ *  @version 1.0.0  2018-03-27  Moriah Tolliver  Initial writing and release
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class SoccerSim {
 
@@ -27,9 +24,9 @@ public class SoccerSim {
      String tab = "    ";
      String doubleError = "All arguments must be of the type Double";
      double DEFAULT_TIMESLICE = 1;
-     double RADIUS_IN_INCHES = 4.5;
-     double MAX_X = 500;
-     double MAX_Y = 500;
+     double DIAMETER = 0.75;
+     double MAX_X = 1000;
+     double MAX_Y = 1000;
 
      Ball b = new Ball(0 , 0 , 0 , 0 , 0);
      Ball pole = new Ball( 0 , 0 , 0 , 0 , 0);
@@ -81,21 +78,21 @@ public class SoccerSim {
      }
 
      //create Array of elements in bounds
-     Ball[] inBounds = new Ball[ balls.size() + 1];
-     for ( int ballIndex = 0; ballIndex < balls.size(); ballIndex++ ) {
-       inBounds[ ballIndex ] = balls.get( ballIndex );
+     ArrayList<Ball> inBounds = new ArrayList<Ball>();
+     for ( Ball ba : balls ) {
+       inBounds.add( ba );
      }
-     inBounds[ balls.size() ] = pole;
+     inBounds.add( pole );
 
      //print initial state
      System.out.println("INITIAL REPORT");
      System.out.println( tab + "Time Slice = " + timer.getTimeSlice() );
      System.out.println( tab + "Pole: X-Position = " + pole.getXPosition() + " Y-Position = " + pole.getYPosition() + "\n" );
 
-     int atRest = 0; // number of balls still moving and in bounds
+     HashSet<Ball> playing = new HashSet<Ball>(); // adds elements that will contribute to while loop stopping
 
      // run simulation and check for collisions
-     while ( atRest < balls.size() ) {
+     while ( playing. size() < balls.size() ) {
 
        System.out.println( "\nREPORT AT " + timer.toString() );
        for ( int ballIndex = 0; ballIndex < balls.size(); ballIndex++ ) {
@@ -108,23 +105,38 @@ public class SoccerSim {
          }
        }
 
+       //steps 1.print 2.check for collisions 2a. if collsion stop and print 2b.if no collision update num of balls that are still moving 3.remove balls that have gone out of bounds
        //remove balls from check array that are out of Bounds
 
        // check for collisions
+       for ( int checkBallInd = 0; checkBallInd < inBounds.size()-1; checkBallInd++ ) {
+         for ( int ballInd = checkBallInd + 1; ballInd < inBounds.size(); ballInd++ ) {
+           if ( Math.sqrt( Math.pow( (inBounds.get( checkBallInd ).getXPosition() - inBounds.get( ballInd ).getXPosition()) , 2 ) + Math.pow( (inBounds.get( checkBallInd ).getYPosition() - inBounds.get( ballInd ).getYPosition()) , 2 ) ) <= DIAMETER ) {
+             System.out.println( "COLLISION FOR BALL " + balls.indexOf( inBounds.get( checkBallInd ) ) + " & " + balls.indexOf( inBounds.get( ballInd ) ) );
+             System.exit(0);
+           }
+         }
+       }
 
        //check if balls are still in motion
-       atRest = 0;
+       int atRest = 0; // number of balls still moving and in bounds
 
        for ( Ball ba : balls ) {
          if ( ba.isMoving() ) {
            ba.updateBall();
          }
          else {
-           atRest++;
+           playing.add( ba );
          }
        }
 
-
+       //check if balls are in bounds
+       for ( Ball ball : inBounds ) {
+         if ( Math.abs( ball.getXPosition() ) > MAX_X || Math.abs( ball.getYPosition() ) > MAX_Y ) {
+           inBounds.remove ( ball );
+           playing.add( ball );
+         }
+       }
 
       timer.tick();
     }
