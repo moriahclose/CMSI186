@@ -29,6 +29,9 @@ public class BrobInt {
 
   public BrobInt( String value ) {
 
+    // set string value to input
+    strValue = value;
+
     // create array to hold int values of the string
     intArray = new int[ (int)(value.length() / MAX_NUM_CHARS ) + 1 ];
 
@@ -44,11 +47,19 @@ public class BrobInt {
     // add remaining characters to the array
     intArray[ intArray.length - 1 ] = Integer.parseInt( value.substring( 0 , value.length() % MAX_NUM_CHARS ) );
 
-    //print array to test
-    for ( int i : intArray ) {
-      System.out.println( i );
-    }
+    // //print array to test
+    // for ( int i : intArray ) {
+    //   System.out.println( i );
+    // }
 
+  }
+
+  public boolean equals( BrobInt bI ) {
+    return ( this.toString().equals( bI.toString() ) ) ? true : false;
+  }
+
+  public String toString() {
+    return strValue;
   }
 
   public static void main( String args[] ) {
