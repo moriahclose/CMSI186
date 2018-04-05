@@ -47,11 +47,18 @@ public class BrobInt {
     // add remaining characters to the array
     intArray[ intArray.length - 1 ] = Integer.parseInt( value.substring( 0 , value.length() % MAX_NUM_CHARS ) );
 
-    // //print array to test
-    // for ( int i : intArray ) {
-    //   System.out.println( i );
-    // }
+  }
 
+  public BrobInt add( BrobInt value ) {
+    int[] valueArray = value.getArrayRep();
+    if ( intArray.length == 1 || valueArray.length == 1 ) {
+      return new BrobInt( String.valueOf( intArray[0] + valueArray[0] ) );
+    }
+    return new BrobInt("");
+  }
+
+  public int[] getArrayRep() {
+    return intArray;
   }
 
   public boolean equals( BrobInt bI ) {
@@ -63,7 +70,9 @@ public class BrobInt {
   }
 
   public static void main( String args[] ) {
-    BrobInt b = new BrobInt("123456789123456789");
+    BrobInt b = new BrobInt("123");
+    BrobInt c = new BrobInt("987");
+    System.out.println( b.add( c ).toString() );
   }
 
 }
