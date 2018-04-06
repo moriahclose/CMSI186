@@ -15,15 +15,16 @@
  *  1.0.0  2018-04-19  M.Tolliver  Initial writing and begin coding
  *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 import java.util.Arrays;
+import java.math.BigInteger;
 
 public class BrobInt {
 
   // CONSTANTS
   private static final int MAX_NUM_CHARS = 8;
+  private static final int BASE = 10;
 
   // instance variables
   private int[] intArray;
-  private int carry;
   private String strValue;
 
 
@@ -44,17 +45,45 @@ public class BrobInt {
       arrayIndex++;
     }
 
-    // add remaining characters to the array
-    intArray[ intArray.length - 1 ] = Integer.parseInt( value.substring( 0 , value.length() % MAX_NUM_CHARS ) );
-
+    // add remaining characters to the array if length of value is not divisible by 8
+    if ( value.length() % 8 != 0 ) {
+      intArray[ intArray.length - 1 ] = Integer.parseInt( value.substring( 0 , value.length() % MAX_NUM_CHARS ) );
+    }
   }
 
   public BrobInt add( BrobInt value ) {
-    int[] valueArray = value.getArrayRep();
-    if ( intArray.length == 1 || valueArray.length == 1 ) {
-      return new BrobInt( String.valueOf( intArray[0] + valueArray[0] ) );
+    String newBrobIntString = "";   // string to be input for the return BrobInt
+    int[] shortArray = ( value.getArrayRep().length < intArray.length ) ? value.getArrayRep() : intArray;   // variable for shorter array
+    int[] longArray = ( value.getArrayRep().length < intArray.length ) ? intArray : value.getArrayRep();   // variable for shorter array
+    int carry = 0;    // holds the carry amount
+    int index = 0;    // holds current index
+    int sum = 0;      // holds current sum digit
+
+    for ( index = 0; index < longArray.length; index++ ) {
+
+      if ( index < shortArray.length ) {
+        sum = longArray[ index ] + shortArray[ index ] + carry;
+        carry = ( String.valueOf( sum ).length() > String.valueOf( longArray[ index ] ).length() ) ? 1 : 0;
+      }
+      else {
+        sum = longArray[ index ] + carry;
+        carry = ( String.valueOf( sum ).length() > String.valueOf( longArray[ index ] ).length() && index < longArray.length ) ? 1 : 0;
+      }
+
+      newBrobIntString = sum + newBrobIntString;  // add sum to the string
+
+      // add 0 padding if needed
+      if ( index < longArray.length - 1 ) {
+        String strSum = String.valueOf( sum );
+        while ( strSum.length() < MAX_NUM_CHARS ) {
+          newBrobIntString = "0" + newBrobIntString;
+          strSum += "0";
+        }
+      }
     }
-    return new BrobInt("");
+
+    return new BrobInt( newBrobIntString ); // return the sum as a BrobInt
+
   }
 
   public int[] getArrayRep() {
@@ -70,9 +99,15 @@ public class BrobInt {
   }
 
   public static void main( String args[] ) {
-    BrobInt b = new BrobInt("123");
-    BrobInt c = new BrobInt("987");
-    System.out.println( b.add( c ).toString() );
+    BrobInt b = new BrobInt("144127909719710664015092431502440849849506284148982076191826176553");
+    BigInteger bI = new BigInteger( "144127909719710664015092431502440849849506284148982076191826176553" );
+    BrobInt c = new BrobInt("14412790971971066401509243150244084984950628410898207");
+    BigInteger cI = new BigInteger("14412790971971066401509243150244084984950628410898207");
+
+    System.out.println( "My val: " + b.add( c ).toString() );
+    System.out.println( "Bg int: " +  bI.add( cI ) );
+
   }
 
 }
+
