@@ -27,14 +27,13 @@ public class BrobInt {
   private int[] intArray;
   private String strValue;
 
-
   public BrobInt( String value ) {
 
-    // set string value to input
     strValue = value;
 
     // create array to hold int values of the string
     intArray = new int[ (int)(value.length() / MAX_NUM_CHARS ) + 1 ];
+
 
     // variable to iterate through the array
     int arrayIndex = 0;
@@ -54,7 +53,7 @@ public class BrobInt {
   public BrobInt add( BrobInt value ) {
     String newBrobIntString = "";   // string to be input for the return BrobInt
     int[] shortArray = ( value.getArrayRep().length < intArray.length ) ? value.getArrayRep() : intArray;   // variable for shorter array
-    int[] longArray = ( value.getArrayRep().length < intArray.length ) ? intArray : value.getArrayRep();   // variable for shorter array
+    int[] longArray = ( value.getArrayRep().length < intArray.length ) ?  intArray : value.getArrayRep();   // variable for shorter array
     int carry = 0;    // holds the carry amount
     int index = 0;    // holds current index
     int sum = 0;      // holds current sum digit
@@ -63,14 +62,15 @@ public class BrobInt {
 
       if ( index < shortArray.length ) {
         sum = longArray[ index ] + shortArray[ index ] + carry;
-        carry = ( String.valueOf( sum ).length() > String.valueOf( longArray[ index ] ).length() ) ? 1 : 0;
+        carry = ( String.valueOf( sum ).length() > MAX_NUM_CHARS ) ? 1 : 0;
       }
       else {
         sum = longArray[ index ] + carry;
-        carry = ( String.valueOf( sum ).length() > String.valueOf( longArray[ index ] ).length() && index < longArray.length ) ? 1 : 0;
+        carry = ( String.valueOf( sum ).length() > MAX_NUM_CHARS ) ? 1 : 0;
       }
 
-      newBrobIntString = sum + newBrobIntString;  // add sum to the string
+
+      newBrobIntString = ( carry == 1 ) ? String.valueOf( sum ).substring( 1 , String.valueOf( sum ).length() ) + newBrobIntString : sum + newBrobIntString;  // add sum to the string
 
       // add 0 padding if needed
       if ( index < longArray.length - 1 ) {
@@ -82,8 +82,7 @@ public class BrobInt {
       }
     }
 
-    return new BrobInt( newBrobIntString ); // return the sum as a BrobInt
-
+    return new BrobInt( newBrobIntString );
   }
 
   public int[] getArrayRep() {
@@ -99,15 +98,20 @@ public class BrobInt {
   }
 
   public static void main( String args[] ) {
-    BrobInt b = new BrobInt("144127909719710664015092431502440849849506284148982076191826176553");
-    BigInteger bI = new BigInteger( "144127909719710664015092431502440849849506284148982076191826176553" );
-    BrobInt c = new BrobInt("14412790971971066401509243150244084984950628410898207");
-    BigInteger cI = new BigInteger("14412790971971066401509243150244084984950628410898207");
+    BrobInt b = new BrobInt("1000000011111111");
+    BigInteger bI = new BigInteger( "1000000011111111" );
+    BrobInt c = new BrobInt("9200000091111111");
+    BigInteger cI = new BigInteger("9200000091111111");
 
-    System.out.println( "My val: " + b.add( c ).toString() );
+    BrobInt g1Mine = new BrobInt( "144127909719710664015092431502440849849506284148982076191826176553" );
+    BigInteger g1Theirs = new BigInteger( "144127909719710664015092431502440849849506284148982076191826176553" );
+    BrobInt g2Mine = new BrobInt( "14412790971971066401509243150244084984950628410898207");
+    BigInteger g2Theirs = new BigInteger( "14412790971971066401509243150244084984950628410898207");
+
+
+    System.out.println( "My val: " + b.add( c ) );
     System.out.println( "Bg int: " +  bI.add( cI ) );
 
   }
 
 }
-
