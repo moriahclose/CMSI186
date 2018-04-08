@@ -85,6 +85,63 @@ public class BrobInt {
     return new BrobInt( newBrobIntString );
   }
 
+  public BrobInt subtract( BrobInt value ) {
+    String newBrobIntString = "";   // string to be input for the return BrobInt
+    int[] shortArray = ( value.getArrayRep().length < intArray.length ) ? value.getArrayRep() : intArray;   // variable for shorter array
+    int[] longArray = ( value.getArrayRep().length < intArray.length ) ?  intArray : value.getArrayRep();   // variable for shorter array
+    int carry = 0;    // holds the carry amount
+    int index = 0;    // holds current index
+    int sum = 0;      // holds current sum digit
+
+    for ( index = 0; index < longArray.length; index++ ) {
+
+      if ( index < shortArray.length ) {
+        sum = longArray[ index ] + shortArray[ index ] + carry;
+        carry = ( String.valueOf( sum ).length() > MAX_NUM_CHARS ) ? 1 : 0;
+      }
+      else {
+        sum = longArray[ index ] + carry;
+        carry = ( String.valueOf( sum ).length() > MAX_NUM_CHARS ) ? 1 : 0;
+      }
+
+
+      newBrobIntString = ( carry == 1 ) ? String.valueOf( sum ).substring( 1 , String.valueOf( sum ).length() ) + newBrobIntString : sum + newBrobIntString;  // add sum to the string
+
+      // add 0 padding if needed
+      if ( index < longArray.length - 1 ) {
+        String strSum = String.valueOf( sum );
+        while ( strSum.length() < MAX_NUM_CHARS ) {
+          newBrobIntString = "0" + newBrobIntString;
+          strSum += "0";
+        }
+      }
+    }
+
+    // multiply by negative 1 if answer is supposed to be negative
+
+    return new BrobInt( newBrobIntString );
+  }
+
+  public int compareTo( BrobInt value ) {
+    if ( this.toString().length() > value.toString().length() ) {
+      return 1;
+    }
+    else if ( this.toString().length() < value.toString().length() ) {
+      return -1;
+    }
+    else {
+      for ( int index = value.getArrayRep().length - 1; index >= 0; index--) {
+        if ( intArray[ index ] > value.getArrayRep()[ index ] ) {
+          return 1;
+        }
+        else if ( intArray[ index ] < value.getArrayRep()[ index ] ) {
+          return -1;
+        }
+      }
+    }
+    return 0;
+  }
+
   public int[] getArrayRep() {
     return intArray;
   }
@@ -98,19 +155,16 @@ public class BrobInt {
   }
 
   public static void main( String args[] ) {
-    BrobInt b = new BrobInt("1000000011111111");
-    BigInteger bI = new BigInteger( "1000000011111111" );
-    BrobInt c = new BrobInt("9200000091111111");
-    BigInteger cI = new BigInteger("9200000091111111");
+    BrobInt b = new BrobInt("1234567812345678");
+    BigInteger bI = new BigInteger( "1234567812345678" );
+    BrobInt c = new BrobInt("9023456790045676");
+    BigInteger cI = new BigInteger("9023456790045676");
 
-    BrobInt g1Mine = new BrobInt( "144127909719710664015092431502440849849506284148982076191826176553" );
-    BigInteger g1Theirs = new BigInteger( "144127909719710664015092431502440849849506284148982076191826176553" );
-    BrobInt g2Mine = new BrobInt( "14412790971971066401509243150244084984950628410898207");
-    BigInteger g2Theirs = new BigInteger( "14412790971971066401509243150244084984950628410898207");
+    System.out.println( "My val: " + b.subtract( c ) );
+    System.out.println( "Bg int: " +  bI.subtract( cI ) );
 
-
-    System.out.println( "My val: " + b.add( c ) );
-    System.out.println( "Bg int: " +  bI.add( cI ) );
+    System.out.println( "My val: " + c.subtract( b ) );
+    System.out.println( "Bg int: " +  cI.subtract( bI ) );
 
   }
 
