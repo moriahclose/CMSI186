@@ -46,7 +46,12 @@ public class BrobInt {
 
     // add remaining characters to the array if length of value is not divisible by 8
     if ( value.length() % 8 != 0 ) {
-      intArray[ intArray.length - 1 ] = Integer.parseInt( value.substring( 0 , value.length() % MAX_NUM_CHARS ) );
+      if ( strValue.substring( 0 , 1 ) == "-" ) {
+        intArray[ intArray.length - 1 ] *= -1;
+      }
+      else {
+        intArray[ intArray.length - 1 ] = Integer.parseInt( value.substring( 0 , value.length() % MAX_NUM_CHARS ) );
+      }
     }
   }
 
