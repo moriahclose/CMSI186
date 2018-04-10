@@ -14,7 +14,7 @@
  *  -----  ----------  ------------  ---------------------------------------------------------------------
  *  1.0.0  2018-04-19  M.Tolliver  Initial writing and begin coding
  *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.math.BigInteger;
 
 public class BrobInt {
@@ -24,6 +24,8 @@ public class BrobInt {
   private static final int BASE = 10;
   private static final BrobInt ZERO = new BrobInt( "0" );
   private static final BrobInt ONE = new BrobInt( "1" );
+  private static final BrobInt TEN = new BrobInt( "10" );
+
 
   // instance variables
   private int[] intArray;
@@ -102,7 +104,7 @@ public class BrobInt {
       newBrobIntString = ( carry == 1 ) ? String.valueOf( sum ).substring( 1 , String.valueOf( sum ).length() ) + newBrobIntString : sum + newBrobIntString;  // add sum to the string
 
       // add 0 padding if needed
-      if ( index < longArray.length - 1 ) {
+      if ( index != longArray.length - 1 ) {
         String strSum = String.valueOf( sum );
         while ( strSum.length() < MAX_NUM_CHARS ) {
           newBrobIntString = "0" + newBrobIntString;
@@ -139,24 +141,42 @@ public class BrobInt {
     return new BrobInt( newBrobIntString );
   }
 
-  /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     *  Method to multiply the value of a BrobIntk passed as argument to this BrobInt
+  /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     *  Method to multiply the value of a BrobInt passed as argument to this BrobInt using Russian Peasant Multiplication
      *  @param  value         BrobInt to multiply by this
      *  @return BrobInt that is the product of the value of this BrobInt and the one passed in
-     *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+     *  NOTE: uses Halver.java by B.J. Johnson
+     *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
      public BrobInt multiply( BrobInt value ) {
-        BrobInt newBrobInt = this;
+       Halver h = new Halver();
+       boolean n1IsPositive = this.compareTo( ZERO ) >= 0;
+       boolean n2IsPositive = value.compareTo( ZERO ) >= 0;
 
-        BrobInt valueTemp = ( value.compareTo( ZERO ) == -1 ) ? new BrobInt( value.toString().substring( 1 , value.toString().length() ) ) : value;
+       String halveThis = ( !n1IsPositive ) ? this.toString().substring( 1 ) : this.toString();
+       BrobInt doubleThis = ( !n2IsPositive ) ? new BrobInt( value.toString().substring( 1 ) ) : value;
 
-        value = value.subtract( ONE );
-        while ( value.compareTo( ZERO ) > 0 ) {
-          newBrobInt = newBrobInt.add( this );
-          value = value.subtract( ONE );
-        }
+       BrobInt product = ZERO;
 
-        return ( value.compareTo( ZERO ) == -1 ) ? new BrobInt( "-" + newBrobInt.toString() ) : newBrobInt;
-        }
+       while ( !halveThis.equals( "1" ) ) {
+
+         // if the halved number is even, subtract the doubled number from the product
+         if ( Integer.parseInt( halveThis.substring( halveThis.length() - 1 ) ) % 2 == 1 ) {
+           product = product.add( doubleThis );
+         }
+
+         doubleThis = doubleThis.add( doubleThis );
+         halveThis = h.halve( halveThis );
+       }
+
+       // do same check as in while loop but for last iteration
+       if ( Integer.parseInt( halveThis.substring( halveThis.length() - 1 ) ) % 2 == 1 ) {
+         product = product.add( doubleThis );
+       }
+
+       // return the product brobInt with the correct sign
+       return ( n1IsPositive && !n2IsPositive || !n1IsPositive && n2IsPositive ) ? new BrobInt( "-" + product.toString() ) : product;
+
+     }
 
   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    *  Method to compare a BrobInt passed as argument to this BrobInt
@@ -228,13 +248,9 @@ public class BrobInt {
   }
 
   public static void main( String args[] ) {
-    BrobInt g1 = new BrobInt( "1234" );
-    BrobInt g1p2 = new BrobInt( "5678" );
-    BrobInt g2 = new BrobInt( "123" );
+    BrobInt g1 = new BrobInt( "-57" );
+    BrobInt g2 = new BrobInt( "-86" );
     System.out.println( g1.multiply( g2 ) );
-    System.out.println( g1p2.multiply( g2 ) );
-    System.out.println( g1.multiply( g2 ).add( g1p2.multiply( g2 ) ) );
-
   }
 
 }
