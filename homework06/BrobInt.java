@@ -23,11 +23,18 @@ public class BrobInt {
   private static final int MAX_NUM_CHARS = 8;
   private static final int BASE = 10;
   private static final BrobInt ZERO = new BrobInt( "0" );
+  private static final BrobInt ONE = new BrobInt( "1" );
 
   // instance variables
   private int[] intArray;
   private String strValue;
 
+  /**
+   *  Constructor takes a string and assigns it to the internal storage, checks for a sign character
+   *   and handles that accordingly;  it then checks to see if it's all valid digits, and reverses it
+   *   for later use
+   *  @param  value  String value to make into a BrobInt
+   */
   public BrobInt( String value ) {
 
     strValue = value;
@@ -67,6 +74,11 @@ public class BrobInt {
     }
   }
 
+ /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  *  Method to add the value of a BrobIntk passed as argument to this BrobInt using int array
+  *  @param  value         BrobInt to add to this
+  *  @return BrobInt that is the sum of the value of this BrobInt and the one passed in
+  *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   public BrobInt add( BrobInt value ) {
     String newBrobIntString = "";   // string to be input for the return BrobInt
     int[] shortArray = ( value.getArrayRep().length < intArray.length ) ? value.getArrayRep() : intArray;   // variable for shorter array
@@ -102,6 +114,11 @@ public class BrobInt {
     return new BrobInt( newBrobIntString );
   }
 
+  /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   *  Method to subtract the value of a BrobInt passed as argument to this BrobInt using int array
+   *  @param  value         BrobInt to subtract from this
+   *  @return BrobInt that is the difference of the value of this BrobInt and the one passed in
+   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   public BrobInt subtract( BrobInt value ) {
     String newBrobIntString = "";   // string to be input for the return BrobInt
     String valueString = "";
@@ -122,6 +139,30 @@ public class BrobInt {
     return new BrobInt( newBrobIntString );
   }
 
+  /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     *  Method to multiply the value of a BrobIntk passed as argument to this BrobInt
+     *  @param  value         BrobInt to multiply by this
+     *  @return BrobInt that is the product of the value of this BrobInt and the one passed in
+     *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+     public BrobInt multiply( BrobInt value ) {
+        BrobInt newBrobInt = this;
+
+        BrobInt valueTemp = ( value.compareTo( ZERO ) == -1 ) ? new BrobInt( value.toString().substring( 1 , value.toString().length() ) ) : value;
+
+        value = value.subtract( ONE );
+        while ( value.compareTo( ZERO ) > 0 ) {
+          newBrobInt = newBrobInt.add( this );
+          value = value.subtract( ONE );
+        }
+
+        return ( value.compareTo( ZERO ) == -1 ) ? new BrobInt( "-" + newBrobInt.toString() ) : newBrobInt;
+        }
+
+  /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   *  Method to compare a BrobInt passed as argument to this BrobInt
+   *  @param  value  BrobInt to add to this
+   *  @return int   that is one of neg/0/pos if this BrobInt precedes/equals/follows the argument
+   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   public int compareTo( BrobInt value ) {
     if ( this.toString().substring( 0 , 1 ).equals( "-" ) && !value.toString().substring( 0 , 1 ).equals( "-" ) ) {
       return -1;
@@ -160,22 +201,39 @@ public class BrobInt {
     return 0;
   }
 
+  /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   *  Method to return the array representation of this BrobInt
+   *  @return array  that holds integer array representation of this BrobInt
+
+   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   public int[] getArrayRep() {
     return intArray;
   }
 
-  public boolean equals( BrobInt bI ) {
-    return ( this.toString().equals( bI.toString() ) ) ? true : false;
+  /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   *  Method to check if a BrobInt passed as argument is equal to this BrobInt
+   *  @param  value     BrobInt to compare to this
+   *  @return boolean  that is true if they are equal and false otherwise
+   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+  public boolean equals( BrobInt value ) {
+    return ( this.toString().equals( value.toString() ) ) ? true : false;
   }
 
+/** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ *  Method to return a String representation of this BrobInt
+ *  @return String  which is the String representation of this BrobInt
+ *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   public String toString() {
     return strValue;
   }
 
   public static void main( String args[] ) {
-    BrobInt g1 = new BrobInt( "144444444" );
-    BrobInt g2 = new BrobInt( "-144444444" );
-    System.out.println( g1.add( g2 ) );
+    BrobInt g1 = new BrobInt( "1234" );
+    BrobInt g1p2 = new BrobInt( "5678" );
+    BrobInt g2 = new BrobInt( "123" );
+    System.out.println( g1.multiply( g2 ) );
+    System.out.println( g1p2.multiply( g2 ) );
+    System.out.println( g1.multiply( g2 ).add( g1p2.multiply( g2 ) ) );
 
   }
 
