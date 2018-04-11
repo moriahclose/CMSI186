@@ -113,6 +113,11 @@ public class BrobInt {
       }
     }
 
+    // get rid of excess 0s
+    while ( newBrobIntString.substring( 0 , 1 ).equals( "0" ) ) {
+      newBrobIntString = newBrobIntString.substring( 1 );
+    }
+
     return new BrobInt( newBrobIntString );
   }
 
@@ -132,10 +137,6 @@ public class BrobInt {
     else {
       valueString = value.toString().substring( 1 , value.toString().length() );
       newBrobIntString = this.add( new BrobInt( valueString ) ).toString();
-    }
-
-    if ( newBrobIntString.indexOf( "-" ) > 0 ) {
-      newBrobIntString = newBrobIntString.substring( newBrobIntString.indexOf( "-" ) , newBrobIntString.length() );
     }
 
     return new BrobInt( newBrobIntString );
@@ -177,6 +178,23 @@ public class BrobInt {
        return ( n1IsPositive && !n2IsPositive || !n1IsPositive && n2IsPositive ) ? new BrobInt( "-" + product.toString() ) : product;
 
      }
+
+     /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   *  Method to divide the value of this GinormousIntk by the BrobInt passed as argument
+   *  @param  value         BrobInt to divide this by
+   *  @return BrobInt that is the dividend of this GinormousInt divided by the one passed in
+   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+   public BrobInt divide( BrobInt value ) {
+    BrobInt quotient = ZERO;
+    BrobInt dividend = this;
+
+     while ( dividend.compareTo( ZERO ) == 1 ) {
+       dividend = dividend.subtract( value );
+       quotient = quotient.add( ONE );
+     }
+
+     return quotient;
+   }
 
   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    *  Method to compare a BrobInt passed as argument to this BrobInt
@@ -248,9 +266,11 @@ public class BrobInt {
   }
 
   public static void main( String args[] ) {
-    BrobInt g1 = new BrobInt( "-57" );
-    BrobInt g2 = new BrobInt( "-86" );
-    System.out.println( g1.multiply( g2 ) );
+    BrobInt g1 = new BrobInt( "12345678" );
+    BrobInt g2 = new BrobInt( "98" );
+
+
+    System.out.println( g1.divide( g2 ) );
   }
 
 }
