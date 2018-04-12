@@ -16,7 +16,7 @@
  *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 import java.util.ArrayList;
 import java.math.BigInteger;
-
+import java.lang.Long;
 public class BrobInt {
 
   // CONSTANTS
@@ -259,6 +259,22 @@ public class BrobInt {
     }
     return 0;
   }
+
+  /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   *  Method to return a BrobInt given a long value passed as argument
+   *  @param  value         long type number to make into a BrobInt
+   *  @return BrobInt  which is the BrobInt representation of the long
+   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+   public static BrobInt valueOf( long value ) throws NumberFormatException {
+      BrobInt gi = null;
+      try {
+         gi = new BrobInt( String.valueOf( value ).toString() );
+      }
+      catch( NumberFormatException nfe ) {
+         System.out.println( "\n  Sorry, the value must be numeric of type long." );
+      }
+      return gi;
+   }
 
   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    *  Method to return the array representation of this BrobInt
