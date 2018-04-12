@@ -24,6 +24,7 @@ public class BrobInt {
   private static final int BASE = 10;
   private static final BrobInt ZERO = new BrobInt( "0" );
   private static final BrobInt ONE = new BrobInt( "1" );
+  private static final BrobInt NEG_ONE = new BrobInt( "-1" );
   private static final BrobInt TEN = new BrobInt( "10" );
 
 
@@ -185,15 +186,35 @@ public class BrobInt {
    *  @return BrobInt that is the dividend of this GinormousInt divided by the one passed in
    *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
    public BrobInt divide( BrobInt value ) {
+    if ( value.equals( ZERO ) ) {
+      System.out.println( "Cannot divide by 0 " );
+      System.exit( 0 );
+    }
+
+    boolean n1IsPositive = this.compareTo( ZERO ) >= 0;
+    boolean n2IsPositive = value.compareTo( ZERO ) >= 0;
+
     BrobInt quotient = ZERO;
-    BrobInt dividend = this;
+    BrobInt dividend = ( n1IsPositive ) ? this : this.multiply( NEG_ONE );
+    BrobInt divisor = ( n2IsPositive ) ? value : value.multiply( NEG_ONE );
 
      while ( dividend.compareTo( ZERO ) == 1 ) {
-       dividend = dividend.subtract( value );
+       dividend = dividend.subtract( divisor );
        quotient = quotient.add( ONE );
      }
 
+     quotient = quotient.subtract( ONE );
+     quotient = ( n1IsPositive && !n2IsPositive || !n1IsPositive && n2IsPositive ) ? quotient.multiply( NEG_ONE ) : quotient;
      return quotient;
+   }
+
+   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   *  Method to get the remainder of division of this BrobInt by the one passed as argument
+   *  @param  value         BrobInt to divide this one by
+   *  @return BrobInt that is the remainder of division of this BrobInt by the one passed in
+   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+   public BrobInt remainder( BrobInt value ) {
+     return this.subtract( this.divide( value ).multiply( value ) );
    }
 
   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -266,8 +287,8 @@ public class BrobInt {
   }
 
   public static void main( String args[] ) {
-    BrobInt g1 = new BrobInt( "12345678" );
-    BrobInt g2 = new BrobInt( "98" );
+    BrobInt g1 = new BrobInt( "108" );
+    BrobInt g2 = new BrobInt( "-9" );
 
 
     System.out.println( g1.divide( g2 ) );
