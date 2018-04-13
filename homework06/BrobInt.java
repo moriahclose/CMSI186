@@ -97,31 +97,45 @@ public class BrobInt {
     int[] shortArray = shortBrob.getArrayRep();   // variable for shorter array
     int[] longArray = longBrob.getArrayRep();   // variable for shorter array
     int carry = 0;    // holds the carry amount
-    int index = 0;    // holds current index
     int sum = 0;      // holds current sum digit
 
     // add numbers with opposite signs
+    if ( n1IsPositive && !n2IsPositive || !n1IsPositive && n2IsPositive ) {
+      for ( int index = 0; index < longArray.length; index++ ) {
+
+        if ( index < shortArray.length ) {
+          sum += ( longArray[ index ] - shortArray[ index ] ) * Math.pow( BASE , MAX_NUM_CHARS * index );
+        }
+        else {
+          sum += longArray[ index ] * Math.pow( BASE , MAX_NUM_CHARS * index );
+        }
+      }
+
+      newBrobIntString = String.valueOf( sum );
+    }
 
     // add two positive numbers
-    for ( index = 0; index < longArray.length; index++ ) {
+    else {
+      for ( int index = 0; index < longArray.length; index++ ) {
 
-      if ( index < shortArray.length ) {
-        sum = longArray[ index ] + shortArray[ index ] + carry;
-        carry = ( String.valueOf( sum ).length() > MAX_NUM_CHARS ) ? 1 : 0;
-      }
-      else {
-        sum = longArray[ index ] + carry;
-        carry = ( String.valueOf( sum ).length() > MAX_NUM_CHARS ) ? 1 : 0;
-      }
+        if ( index < shortArray.length ) {
+          sum = longArray[ index ] + shortArray[ index ] + carry;
+          carry = ( String.valueOf( sum ).length() > MAX_NUM_CHARS ) ? 1 : 0;
+        }
+        else {
+          sum = longArray[ index ] + carry;
+          carry = ( String.valueOf( sum ).length() > MAX_NUM_CHARS ) ? 1 : 0;
+        }
 
-      newBrobIntString = ( carry == 1 ) ? String.valueOf( sum ).substring( 1 , String.valueOf( sum ).length() ) + newBrobIntString : sum + newBrobIntString;  // add sum to the string
+        newBrobIntString = ( carry == 1 ) ? String.valueOf( sum ).substring( 1 , String.valueOf( sum ).length() ) + newBrobIntString : sum + newBrobIntString;  // add sum to the string
 
-      // add 0 padding if needed
-      if ( index != longArray.length - 1 ) {
-        String strSum = String.valueOf( sum );
-        while ( strSum.length() < MAX_NUM_CHARS ) {
-          newBrobIntString = "0" + newBrobIntString;
-          strSum += "0";
+        // add 0 padding if needed
+        if ( index != longArray.length - 1 ) {
+          String strSum = String.valueOf( sum );
+          while ( strSum.length() < MAX_NUM_CHARS ) {
+            newBrobIntString = "0" + newBrobIntString;
+            strSum += "0";
+          }
         }
       }
     }
@@ -136,6 +150,7 @@ public class BrobInt {
       newBrobIntString = "-" + newBrobIntString;
     }
 
+    System.out.println( newBrobIntString );
     return new BrobInt( newBrobIntString );
   }
 
@@ -320,12 +335,9 @@ public class BrobInt {
   }
 
   public static void main( String args[] ) {
-    BrobInt b = new BrobInt( "1234512349812358729358723678" );
-    BrobInt c = new BrobInt( "34092837450983476938476983476" );
-    BrobInt a = new BrobInt( "-1234512349812358729358723678" );
-    BrobInt d = new BrobInt( "-34092837450983476938476983476" );
+    BrobInt b = new BrobInt( "123456" );
+    BrobInt c = new BrobInt( "-100987" );
     System.out.println( b.toString() + " + " + c.toString() + " = " + b.add( c ) );
-    System.out.println( a.toString() + " + " + d.toString() + " = " + a.add( d ) );
   }
 
 }
