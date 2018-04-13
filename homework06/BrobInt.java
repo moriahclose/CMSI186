@@ -92,17 +92,17 @@ public class BrobInt {
     String newBrobIntString = "";   // string to be input for the return BrobInt
     boolean n1IsPositive = this.compareTo( ZERO ) >= 0;
     boolean n2IsPositive = value.compareTo( ZERO ) >= 0;
-    BrobInt shortBrob = ( value.getArrayRep().length < intArray.length ) ? value : this;
-    BrobInt longBrob = ( value.getArrayRep().length < intArray.length ) ? this : value;
-    int[] shortArray = ( shortBrob.equals( this ) ) ? intArray : value.getArrayRep();   // variable for shorter array
-    int[] longArray = ( longBrob.equals( this ) ) ?  intArray : value.getArrayRep();   // variable for shorter array
+    BrobInt shortBrob = ( value.getArrayRep().length < intArray.length ) ? new BrobInt ( value.toString().replace( "-" , "" ) ) : new BrobInt ( this.toString().replace( "-" , "" ) );
+    BrobInt longBrob = ( value.getArrayRep().length < intArray.length ) ? new BrobInt ( this.toString().replace( "-" , "" ) ) : new BrobInt ( value.toString().replace( "-" , "" ) );
+    int[] shortArray = shortBrob.getArrayRep();   // variable for shorter array
+    int[] longArray = longBrob.getArrayRep();   // variable for shorter array
     int carry = 0;    // holds the carry amount
     int index = 0;    // holds current index
     int sum = 0;      // holds current sum digit
 
     // add numbers with opposite signs
 
-    // add two positive or two negative numbers
+    // add two positive numbers
     for ( index = 0; index < longArray.length; index++ ) {
 
       if ( index < shortArray.length ) {
@@ -133,7 +133,7 @@ public class BrobInt {
     }
 
     if ( !n1IsPositive && !n2IsPositive ) {
-      newBrobIntString = newBrobIntString;
+      newBrobIntString = "-" + newBrobIntString;
     }
 
     return new BrobInt( newBrobIntString );
@@ -320,13 +320,12 @@ public class BrobInt {
   }
 
   public static void main( String args[] ) {
-    // BrobInt b = new BrobInt( "12345678" );
-    // BrobInt c = new BrobInt( "123" );
-    // BrobInt a = new BrobInt( "-12345678" );
-    BrobInt d = new BrobInt( "-12345678" );
-    // System.out.println( b.toString() + " + " + c.toString() + " = " + b.add( c ) );
-    // System.out.println( a.toString() + " + " + d.toString() + " = " + a.add( d ) );
-
+    BrobInt b = new BrobInt( "1234512349812358729358723678" );
+    BrobInt c = new BrobInt( "34092837450983476938476983476" );
+    BrobInt a = new BrobInt( "-1234512349812358729358723678" );
+    BrobInt d = new BrobInt( "-34092837450983476938476983476" );
+    System.out.println( b.toString() + " + " + c.toString() + " = " + b.add( c ) );
+    System.out.println( a.toString() + " + " + d.toString() + " = " + a.add( d ) );
   }
 
 }
