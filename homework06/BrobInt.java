@@ -96,26 +96,49 @@ public class BrobInt {
     BrobInt longBrob = ( value.getArrayRep().length < intArray.length ) ? new BrobInt ( this.toString().replace( "-" , "" ) ) : new BrobInt ( value.toString().replace( "-" , "" ) );
     int[] shortArray = shortBrob.getArrayRep();   // variable for shorter array
     int[] longArray = longBrob.getArrayRep();   // variable for shorter array
-    int carry = 0;    // holds the carry amount
-    int sum = 0;      // holds current sum digit
 
     // add numbers with opposite signs
     if ( n1IsPositive && !n2IsPositive || !n1IsPositive && n2IsPositive ) {
+      BrobInt[] differences = new BrobInt[ longArray.length ];
+      String differenceString = "";
+      BrobInt sum = ZERO;
+
       for ( int index = 0; index < longArray.length; index++ ) {
 
         if ( index < shortArray.length ) {
-          sum += ( longArray[ index ] - shortArray[ index ] ) * Math.pow( BASE , MAX_NUM_CHARS * index );
+          differenceString = String.valueOf( ( longArray[ index ] - shortArray[ index ] ) );
+          int zeros = (int)Math.pow( BASE , String.valueOf( longArray[ index ] ).length() * index );
+          while ( zeros > 0 ) {
+            differenceString += "0";
+            zeros = zeros / BASE;
+          }
+          differences[ index ] = new BrobInt( differenceString );
+          System.out.println( differences[ index ] );
         }
         else {
-          sum += longArray[ index ] * Math.pow( BASE , MAX_NUM_CHARS * index );
+          differenceString = String.valueOf( longArray[ index ] );
+          int zeros = (int)Math.pow( BASE , String.valueOf( longArray[ index ] ).length() * index );
+          while ( zeros > 0 ) {
+            differenceString += "0";
+            zeros = zeros / BASE;
+          }
+          differences[ index ] = new BrobInt( differenceString );
+          System.out.println( differences[ index ] );
         }
       }
 
-      newBrobIntString = String.valueOf( sum );
+      for ( int i = 0; i < differences.length; i++ ) {
+        sum = sum.add( differences[ i ] );
+      }
+
+      return ( !n1IsPositive && this.abs().compareTo( value ) == 1 || !n2IsPositive && value.abs().compareTo( this ) == 1 ) ? new BrobInt( "-" + sum.toString() ) : sum;
     }
 
     // add two positive numbers
     else {
+      int carry = 0;    // holds the carry amount
+      int sum = 0;      // holds current sum digit
+
       for ( int index = 0; index < longArray.length; index++ ) {
 
         if ( index < shortArray.length ) {
@@ -150,7 +173,6 @@ public class BrobInt {
       newBrobIntString = "-" + newBrobIntString;
     }
 
-    System.out.println( newBrobIntString );
     return new BrobInt( newBrobIntString );
   }
 
@@ -249,6 +271,14 @@ public class BrobInt {
      return this.subtract( this.divide( value ).multiply( value ) );
    }
 
+   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   *  Method to get the absolute value of this BrobInt
+   *  @return BrobInt that is the absolute value of this BrobInt
+   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+   public BrobInt abs() {
+     return new BrobInt( this.toString().replace( "-" , "" ) );
+   }
+
   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    *  Method to compare a BrobInt passed as argument to this BrobInt
    *  @param  value  BrobInt to add to this
@@ -335,9 +365,12 @@ public class BrobInt {
   }
 
   public static void main( String args[] ) {
-    BrobInt b = new BrobInt( "123456" );
-    BrobInt c = new BrobInt( "-100987" );
+    BrobInt b = new BrobInt( "91827350938759" );
+    BrobInt c = new BrobInt( "-2347538762389467" );
+    BigInteger bI = new BigInteger( "91827350938759" );
+    BigInteger cI = new BigInteger( "-2347538762389467" );
     System.out.println( b.toString() + " + " + c.toString() + " = " + b.add( c ) );
+    System.out.println( bI.toString() + " + " + cI.toString() + " = " + bI.add( cI ) );
   }
 
 }
