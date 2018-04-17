@@ -37,7 +37,7 @@ public class Fibonacci {
    }
 
    public static void main( String[] args ) {
-      System.out.println( "\n\n   Welcome to the Fibonacci sequence number finder!\n" );
+      System.out.println( "\n\n   Welcome to the Fibonacci sequence number finder! Note that 0 is the 1st Fibonacci Number in this program ;) \n" );
       if( 0 == args.length ) {
          System.out.println( usageMessage );
          System.exit( NO_CMD_LINE_ARGS );
@@ -72,20 +72,39 @@ public class Fibonacci {
                    break;
       }
 
-      System.out.println( "\n\n   Starting from zero, the " + maxCount + cardinality + " Fibonacci number is: " );
+     // first and second Fibonacc numbers are 'special cases'...
+     BrobInt FIRST_FIB_NUM = new BrobInt( "0" );
+     BrobInt SECOND_FIB_NUM = new BrobInt( "1" );
 
-     // NOTE: you may want to handle the first and second Fibonacc numbers as 'special cases'...
-
-     // NOTE: you WILL need to initialize your BrobInts to keep track of things....
+     // initialize your BrobInts to keep track of things....
+     BrobInt previous = FIRST_FIB_NUM;
+     BrobInt current = SECOND_FIB_NUM;
 
      // NOTE: this section is just a happy notification that lets the user know to be patient.......
       if( maxCount > working ) {
          System.out.println( "\n                This may take me a while; please be patient!!\n\n" );
       }
 
-      System.out.println( "\n\n\n  ...HA!! Like I'm going to do the ENTIRE thing for you.....  *grins*" );
 
+      if ( maxCount == 0 ) {
+          System.out.println( "\n\n   Starting from zero, the " + maxCount + cardinality + " Fibonacci number is: " + FIRST_FIB_NUM.toString() );
+      }
+      else if ( maxCount == 1 ) {
+          System.out.println( "\n\n   Starting from zero, the " + maxCount + cardinality + " Fibonacci number is: " + SECOND_FIB_NUM.toString() );
+      }
+      else {
+          for ( int count = 2; count < maxCount; count++ ) {
+            BrobInt temp = current;
+            current = current.add( previous );
+            previous = temp;
+          }
+          System.out.println( "\n\n   Starting from zero, the " + maxCount + cardinality + " Fibonacci number is: " + current.toString() );
+      }
 
       System.exit( 0 );
    }
 }
+
+// count = 0
+// current = 0,1,
+// previous = 1, 1
