@@ -21,13 +21,11 @@ public class BrobInt {
 
   // CONSTANTS
   private static final int MAX_NUM_CHARS = 8;
-  private static final double MAX_NUM_CHARS_DUB = 8.0;
   private static final int BASE = 10;
   private static final BrobInt ZERO = new BrobInt( "0" );
   private static final BrobInt ONE = new BrobInt( "1" );
   private static final BrobInt NEG_ONE = new BrobInt( "-1" );
   private static final BrobInt TEN = new BrobInt( "10" );
-  private static final String VALID_CHARS = "-1234567890";
 
 
   // instance variables
@@ -42,45 +40,41 @@ public class BrobInt {
    */
   public BrobInt( String value ) {
 
-    // verify characters in input string
-    for ( int strIndex = 0; strIndex < value.length(); strIndex++ ) {
-      if ( VALID_CHARS.indexOf( value.charAt( strIndex ) ) < 0 ) {
-        System.out.println( "Usage: new BrobInt( 'string of integer digits' ) ");
-        System.exit( 0 );
-      }
-    }
-
-    if ( value.indexOf( "-" ) > 0 ) {
-      System.out.println( "Usage: new BrobInt( 'string of integer digits' ) ");
-      System.exit( 0 );
-    }
-
-    boolean isPositive = !value.substring( 0 , 1 ).equals( "-" );
-    strValue = ( isPositive ) ? value : value.substring( 1 );
+    strValue = value;
 
     // create array to hold int values of the string
-    double inputLength = Double.parseDouble( String.valueOf( strValue.length() ) );
-
-    intArray = new int[ (int)Math.ceil( inputLength / MAX_NUM_CHARS_DUB ) ];
+    intArray = new int[ (int)(value.length() / MAX_NUM_CHARS ) + 1 ];
 
 
     // variable to iterate through the array
     int arrayIndex = 0;
 
     // add characters from back to front until there are less than 8 left
-    for ( int stringIndex = strValue.length(); stringIndex > strValue.length() % MAX_NUM_CHARS; stringIndex -= MAX_NUM_CHARS ) {
+    for ( int stringIndex = value.length(); stringIndex > value.length() % MAX_NUM_CHARS; stringIndex -= MAX_NUM_CHARS ) {
+      if ( stringIndex == intArray.length - 1 && strValue.substring( 0 , 1).equals( "-" ) ) {
+        for ( int i = 0; i < intArray.length; i++ ) {
+          intArray[ i ] *= -1;
+        }
+
+      }
+      else {
         intArray[ arrayIndex ] = Integer.parseInt( value.substring( stringIndex - MAX_NUM_CHARS , stringIndex ) );
         arrayIndex++;
+      }
     }
 
     // add remaining characters to the array if length of value is not divisible by 8
-    if ( strValue.length() % 8 != 0 ) {
-        intArray[ intArray.length - 1 ] = Integer.parseInt( strValue.substring( 0 , strValue.length() % MAX_NUM_CHARS ) );
+    if ( value.length() % 8 != 0 ) {
+      if ( strValue.substring( 0 , 1 ).equals( "-" ) ) {
+        for ( int i = 0; i < intArray.length; i++ ) {
+          intArray[ i ] *= -1;
+        }
+        intArray[ intArray.length - 1 ] = -1 * Integer.parseInt( value.substring( 1 , value.length() % MAX_NUM_CHARS ) );
+      }
+      else {
+        intArray[ intArray.length - 1 ] = Integer.parseInt( value.substring( 0 , value.length() % MAX_NUM_CHARS ) );
+      }
     }
-
-    // make strValue the original
-    strValue = value;
-
   }
 
  /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -90,87 +84,39 @@ public class BrobInt {
   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   public BrobInt add( BrobInt value ) {
     String newBrobIntString = "";   // string to be input for the return BrobInt
-    boolean n1IsPositive = this.compareTo( ZERO ) >= 0;
-    boolean n2IsPositive = value.compareTo( ZERO ) >= 0;
-    BrobInt shortBrob = ( value.getArrayRep().length < intArray.length ) ? new BrobInt ( value.toString().replace( "-" , "" ) ) : new BrobInt ( this.toString().replace( "-" , "" ) );
-    BrobInt longBrob = ( value.getArrayRep().length < intArray.length ) ? new BrobInt ( this.toString().replace( "-" , "" ) ) : new BrobInt ( value.toString().replace( "-" , "" ) );
-    int[] shortArray = shortBrob.getArrayRep();   // variable for shorter array
-    int[] longArray = longBrob.getArrayRep();   // variable for shorter array
+    int[] shortArray = ( value.getArrayRep().length < intArray.length ) ? value.getArrayRep() : intArray;   // variable for shorter array
+    int[] longArray = ( value.getArrayRep().length < intArray.length ) ?  intArray : value.getArrayRep();   // variable for shorter array
+    int carry = 0;    // holds the carry amount
+    int index = 0;    // holds current index
+    int sum = 0;      // holds current sum digit
 
-    // add numbers with opposite signs
-    if ( n1IsPositive && !n2IsPositive || !n1IsPositive && n2IsPositive ) {
-      BrobInt[] differences = new BrobInt[ longArray.length ];
-      String differenceString = "";
-      BrobInt sum = ZERO;
+    for ( index = 0; index < longArray.length; index++ ) {
 
-      for ( int index = 0; index < longArray.length; index++ ) {
-
-        if ( index < shortArray.length ) {
-          differenceString = String.valueOf( ( longArray[ index ] - shortArray[ index ] ) );
-          int zeros = (int)Math.pow( BASE , String.valueOf( longArray[ index ] ).length() * index );
-          while ( zeros > 0 ) {
-            differenceString += "0";
-            zeros = zeros / BASE;
-          }
-          differences[ index ] = new BrobInt( differenceString );
-          System.out.println( differences[ index ] );
-        }
-        else {
-          differenceString = String.valueOf( longArray[ index ] );
-          int zeros = (int)Math.pow( BASE , String.valueOf( longArray[ index ] ).length() * index );
-          while ( zeros > 0 ) {
-            differenceString += "0";
-            zeros = zeros / BASE;
-          }
-          differences[ index ] = new BrobInt( differenceString );
-          System.out.println( differences[ index ] );
-        }
+      if ( index < shortArray.length ) {
+        sum = longArray[ index ] + shortArray[ index ] + carry;
+        carry = ( String.valueOf( sum ).length() > MAX_NUM_CHARS ) ? 1 : 0;
+      }
+      else {
+        sum = longArray[ index ] + carry;
+        carry = ( String.valueOf( sum ).length() > MAX_NUM_CHARS ) ? 1 : 0;
       }
 
-      for ( int i = 0; i < differences.length; i++ ) {
-        sum = sum.add( differences[ i ] );
-      }
 
-      return ( !n1IsPositive && this.abs().compareTo( value ) == 1 || !n2IsPositive && value.abs().compareTo( this ) == 1 ) ? new BrobInt( "-" + sum.toString() ) : sum;
-    }
+      newBrobIntString = ( carry == 1 ) ? String.valueOf( sum ).substring( 1 , String.valueOf( sum ).length() ) + newBrobIntString : sum + newBrobIntString;  // add sum to the string
 
-    // add two positive numbers
-    else {
-      int carry = 0;    // holds the carry amount
-      int sum = 0;      // holds current sum digit
-
-      for ( int index = 0; index < longArray.length; index++ ) {
-
-        if ( index < shortArray.length ) {
-          sum = longArray[ index ] + shortArray[ index ] + carry;
-          carry = ( String.valueOf( sum ).length() > MAX_NUM_CHARS ) ? 1 : 0;
-        }
-        else {
-          sum = longArray[ index ] + carry;
-          carry = ( String.valueOf( sum ).length() > MAX_NUM_CHARS ) ? 1 : 0;
-        }
-
-        newBrobIntString = ( carry == 1 ) ? String.valueOf( sum ).substring( 1 , String.valueOf( sum ).length() ) + newBrobIntString : sum + newBrobIntString;  // add sum to the string
-
-        // add 0 padding if needed
-        if ( index != longArray.length - 1 ) {
-          String strSum = String.valueOf( sum );
-          while ( strSum.length() < MAX_NUM_CHARS ) {
-            newBrobIntString = "0" + newBrobIntString;
-            strSum += "0";
-          }
+      // add 0 padding if needed
+      if ( index != longArray.length - 1 ) {
+        String strSum = String.valueOf( sum );
+        while ( strSum.length() < MAX_NUM_CHARS ) {
+          newBrobIntString = "0" + newBrobIntString;
+          strSum += "0";
         }
       }
     }
-
 
     // get rid of excess 0s
     while ( newBrobIntString.substring( 0 , 1 ).equals( "0" ) ) {
       newBrobIntString = newBrobIntString.substring( 1 );
-    }
-
-    if ( !n1IsPositive && !n2IsPositive ) {
-      newBrobIntString = "-" + newBrobIntString;
     }
 
     return new BrobInt( newBrobIntString );
@@ -271,14 +217,6 @@ public class BrobInt {
      return this.subtract( this.divide( value ).multiply( value ) );
    }
 
-   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   *  Method to get the absolute value of this BrobInt
-   *  @return BrobInt that is the absolute value of this BrobInt
-   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-   public BrobInt abs() {
-     return new BrobInt( this.toString().replace( "-" , "" ) );
-   }
-
   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    *  Method to compare a BrobInt passed as argument to this BrobInt
    *  @param  value  BrobInt to add to this
@@ -341,7 +279,6 @@ public class BrobInt {
   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    *  Method to return the array representation of this BrobInt
    *  @return array  that holds integer array representation of this BrobInt
-
    *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   public int[] getArrayRep() {
     return intArray;
@@ -365,12 +302,11 @@ public class BrobInt {
   }
 
   public static void main( String args[] ) {
-    BrobInt b = new BrobInt( "91827350938759" );
-    BrobInt c = new BrobInt( "-2347538762389467" );
-    BigInteger bI = new BigInteger( "91827350938759" );
-    BigInteger cI = new BigInteger( "-2347538762389467" );
-    System.out.println( b.toString() + " + " + c.toString() + " = " + b.add( c ) );
-    System.out.println( bI.toString() + " + " + cI.toString() + " = " + bI.add( cI ) );
+    BrobInt g1 = new BrobInt( "108" );
+    BrobInt g2 = new BrobInt( "-9" );
+
+
+    System.out.println( g1.divide( g2 ) );
   }
 
 }
