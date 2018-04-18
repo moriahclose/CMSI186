@@ -26,6 +26,7 @@ public class BrobInt {
   private static final BrobInt ONE = new BrobInt( "1" );
   private static final BrobInt NEG_ONE = new BrobInt( "-1" );
   private static final BrobInt TEN = new BrobInt( "10" );
+  private static final String VALID_CHARS = "-1234567890";
 
 
   // instance variables
@@ -42,9 +43,22 @@ public class BrobInt {
 
     strValue = value;
 
-    // create array to hold int values of the string
-    intArray = new int[ (int)(value.length() / MAX_NUM_CHARS ) + 1 ];
+    // verify characters
+    for ( int charIndex = 0; charIndex < strValue.length(); charIndex++ ) {
+        if ( VALID_CHARS.indexOf( strValue.charAt( charIndex ) ) == -1 ) {
+            System.out.println( "Usage: new BrobInt( <string of integer digits> )" );
+            System.exit( 0 );
+        }
+    }
 
+    if ( strValue.indexOf( "-" ) > 0 ) {
+        System.out.println( "Usage: new BrobInt( <string of integer digits> )" );
+        System.exit( 0 );
+    }
+
+    // create array to hold int values of the string
+    double inputLength = (double)value.length();
+    intArray = new int[ (int)Math.ceil( inputLength / MAX_NUM_CHARS ) ];
 
     // variable to iterate through the array
     int arrayIndex = 0;
@@ -84,6 +98,8 @@ public class BrobInt {
   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   public BrobInt add( BrobInt value ) {
     String newBrobIntString = "";   // string to be input for the return BrobInt
+    boolean n1IsPositive = ( this.compareTo( ZERO ) >= 0 );
+    boolean n2IsPositive = ( value.compareTo( ZERO ) >= 0 );
     int[] shortArray = ( value.getArrayRep().length < intArray.length ) ? value.getArrayRep() : intArray;   // variable for shorter array
     int[] longArray = ( value.getArrayRep().length < intArray.length ) ?  intArray : value.getArrayRep();   // variable for shorter array
     int carry = 0;    // holds the carry amount
@@ -131,12 +147,20 @@ public class BrobInt {
     String newBrobIntString = "";   // string to be input for the return BrobInt
     String valueString = "";
 
+    if ( this.equals( value ) ) {
+        while ( newBrobIntString.length() < this.toString().length() ) {
+            newBrobIntString += "0";
+        }
+        newBrobIntString = newBrobIntString.substring( 1 );
+        return new BrobInt( newBrobIntString );
+    }
+
     if ( value.compareTo( ZERO ) == 1 ) {
       valueString  = "-" + value.toString();
       newBrobIntString = this.add( new BrobInt( valueString ) ).toString();
     }
     else {
-      valueString = value.toString().substring( 1 , value.toString().length() );
+      valueString = value.toString().substring( 1 );
       newBrobIntString = this.add( new BrobInt( valueString ) ).toString();
     }
 
@@ -285,6 +309,14 @@ public class BrobInt {
   }
 
   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   *  Method to return BrobInt with absolute value of this BrobInt
+   *  @return BrobInt  that is absolute value of this BrobInt
+   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+  public BrobInt abs() {
+      return ( this.toString().substring( 0 , 1).equals( "-" ) ) ? new BrobInt( this.toString().substring( 1 ) ) : this;
+  }
+
+  /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    *  Method to check if a BrobInt passed as argument is equal to this BrobInt
    *  @param  value     BrobInt to compare to this
    *  @return boolean  that is true if they are equal and false otherwise
@@ -293,20 +325,11 @@ public class BrobInt {
     return ( this.toString().equals( value.toString() ) ) ? true : false;
   }
 
-/** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *  Method to return a String representation of this BrobInt
- *  @return String  which is the String representation of this BrobInt
- *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+  /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   *  Method to return a String representation of this BrobInt
+   *  @return String  which is the String representation of this BrobInt
+   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   public String toString() {
     return strValue;
   }
-
-  public static void main( String args[] ) {
-    BrobInt g1 = new BrobInt( "108" );
-    BrobInt g2 = new BrobInt( "-9" );
-
-
-    System.out.println( g1.divide( g2 ) );
-  }
-
 }
