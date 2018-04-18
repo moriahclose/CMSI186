@@ -104,7 +104,3 @@ public class Fibonacci {
       System.exit( 0 );
    }
 }
-
-// count = 0
-// current = 0,1,
-// previous = 1, 1
