@@ -151,7 +151,6 @@ public class BrobInt {
         while ( newBrobIntString.length() < this.toString().length() ) {
             newBrobIntString += "0";
         }
-        newBrobIntString = newBrobIntString.substring( 1 );
         return new BrobInt( newBrobIntString );
     }
 
