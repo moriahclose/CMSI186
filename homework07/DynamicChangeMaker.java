@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class DynamicChangeMaker {
 
     // constants
@@ -38,6 +40,8 @@ public class DynamicChangeMaker {
     public static Tuple makeChangeWithDynamicProgramming( int[] inputCoinDenoms , int wantedValue ) {
 
         validateArguments( inputCoinDenoms , wantedValue );
+        Tuple useForResult = new Tuple ( inputCoinDenoms );
+        Arrays.sort( inputCoinDenoms );
 
         checkGrid = new Tuple[ inputCoinDenoms.length ][ wantedValue + 1 ];
         Tuple zeroedTuple = new Tuple( inputCoinDenoms.length );
@@ -81,13 +85,15 @@ public class DynamicChangeMaker {
                         }
                     }
                 }
-                // System.out.print( " " + checkGrid[ row ][ col ] + " " );
-                // if ( col == wantedValue ) {
-                //     System.out.println();
-                // }
             }
         }
-        return ( checkGrid[ inputCoinDenoms.length - 1 ][ wantedValue ] );
+
+        // make tuple so output Tuple has same indices as input
+        Tuple result = new Tuple( inputCoinDenoms.length );
+        for ( int i = 0; i < checkGrid[ inputCoinDenoms.length - 1 ][ wantedValue ].length(); i++ ) {
+             result.setElement( useForResult.indexOf( inputCoinDenoms[ i ] ) , checkGrid[ inputCoinDenoms.length - 1 ][ wantedValue ].getElement( i ) );
+        }
+        return ( result.equals( zeroedTuple ) ) ? Tuple.IMPOSSIBLE : result;
     }
 
     public static void main( String args[] ) {
@@ -96,65 +102,72 @@ public class DynamicChangeMaker {
         int[] testArray3 = { 0 , 1 , 2 , 3 };
         int[] testArray4 = { 57 , 3 , 5 , -8 };
         int[] testArray5 = { 23 , 4 , 38 , 23 };
+        int[] usaDenominations = { 25 , 10 , 5 , 1 };
+        int[] weirdDenomination = { 121 , 47 , 23 , 17, 3 };
+        int[] francDenominations  = new int[] { 5, 10, 20, 50 };
+
 
         int testValue1 = 4;
         int testValue2 = 23;
         int testValue3 = -67;
         int testValue4 = 0;
+        int testValue5 = 99;
+        int weirdValue = 13579;
 
-        // tests for arrays
-        System.out.println( "TESTING ARRAYS " );
-        try { validateArguments( testArray1 , testValue1 ); System.out.println( " PASS " ); }
-        catch( Exception e ) { System.out.println( " FAIL "); }
-
-        try { validateArguments( testArray2 , testValue2 ); System.out.println( " PASS " ); }
-        catch( Exception e ) { System.out.println( " FAIL "); }
-
-        try { validateArguments( testArray3 , testValue1 ); System.out.println( " FAIL " ); }
-        catch( Exception e ) { System.out.println( " PASS "); }
-
-        try { validateArguments( testArray4 , testValue1 ); System.out.println( " FAIL " ); }
-        catch( Exception e ) { System.out.println( " PASS "); }
-
-        try { validateArguments( testArray5 , testValue1 ); System.out.println( " FAIL " ); }
-        catch( Exception e ) { System.out.println( " PASS "); }
-
-        // test for wanted values
-        System.out.println( "\nTESTING WANTED VALUES" );
-        try { validateArguments( testArray1 , testValue1 ); System.out.println( " PASS " ); }
-        catch( Exception e ) { System.out.println( " FAIL "); }
-
-        try { validateArguments( testArray1 , testValue1 ); System.out.println( " PASS " ); }
-        catch( Exception e ) { System.out.println( " FAIL "); }
-
-        try { validateArguments( testArray1 , testValue1 ); System.out.println( " PASS " ); }
-        catch( Exception e ) { System.out.println( " FAIL "); }
-
-        try { validateArguments( testArray1 , testValue1 ); System.out.println( " PASS " ); }
-        catch( Exception e ) { System.out.println( " FAIL "); }
-
-        // test for making grids
-        System.out.println( "\nTESTING ARRAYS " );
-
-        try { System.out.println( makeChangeWithDynamicProgramming( testArray1 , testValue1 ) );  }
+        // // tests for arrays
+        // System.out.println( "TESTING ARRAYS " );
+        // try { validateArguments( testArray1 , testValue1 ); System.out.println( " PASS " ); }
+        // catch( Exception e ) { System.out.println( " FAIL "); }
+        //
+        // try { validateArguments( testArray2 , testValue2 ); System.out.println( " PASS " ); }
+        // catch( Exception e ) { System.out.println( " FAIL "); }
+        //
+        // try { validateArguments( testArray3 , testValue1 ); System.out.println( " FAIL " ); }
+        // catch( Exception e ) { System.out.println( " PASS "); }
+        //
+        // try { validateArguments( testArray4 , testValue1 ); System.out.println( " FAIL " ); }
+        // catch( Exception e ) { System.out.println( " PASS "); }
+        //
+        // try { validateArguments( testArray5 , testValue1 ); System.out.println( " FAIL " ); }
+        // catch( Exception e ) { System.out.println( " PASS "); }
+        //
+        // // test for wanted values
+        // System.out.println( "\nTESTING WANTED VALUES" );
+        // try { validateArguments( testArray1 , testValue1 ); System.out.println( " PASS " ); }
+        // catch( Exception e ) { System.out.println( " FAIL "); }
+        //
+        // try { validateArguments( testArray1 , testValue1 ); System.out.println( " PASS " ); }
+        // catch( Exception e ) { System.out.println( " FAIL "); }
+        //
+        // try { validateArguments( testArray1 , testValue1 ); System.out.println( " PASS " ); }
+        // catch( Exception e ) { System.out.println( " FAIL "); }
+        //
+        // try { validateArguments( testArray1 , testValue1 ); System.out.println( " PASS " ); }
+        // catch( Exception e ) { System.out.println( " FAIL "); }
+        //
+        // // test for making grids
+        // System.out.println( "\nTESTING ARRAYS " );
+        //
+        // try { System.out.println( makeChangeWithDynamicProgramming( testArray1 , testValue1 ) );  }
+        // catch( Exception e ) { System.out.println( e ); }
+        //
+        // try { System.out.println( makeChangeWithDynamicProgramming( testArray2 , testValue2 ) ); }
+        // catch( Exception e ) { System.out.println( e ); }
+        //
+        // try { System.out.println( makeChangeWithDynamicProgramming( usaDenominations , testValue5 ) ); }
+        // catch( Exception e ) { System.out.println( e ); }
+        try { System.out.println( makeChangeWithDynamicProgramming( weirdDenomination , weirdValue ) ); }
         catch( Exception e ) { System.out.println( e ); }
-
-        try { System.out.println( makeChangeWithDynamicProgramming( testArray2 , testValue2 ) ); }
-        catch( Exception e ) { System.out.println( e ); }
-
-        try { makeChangeWithDynamicProgramming( testArray2 , testValue2 ); }
-        catch( Exception e ) { System.out.println( e ); }
-
-        try { makeChangeWithDynamicProgramming( testArray4 , testValue1 ); System.out.println( " FAIL " ); }
-        catch( Exception e ) { System.out.println( e ); }
-
-        try { makeChangeWithDynamicProgramming( testArray5 , testValue1 ); System.out.println( " FAIL " ); }
-        catch( Exception e ) { System.out.println( e ); }
+        // try { System.out.println( makeChangeWithDynamicProgramming( francDenominations , testValue5 ) ); }
+        // catch( Exception e ) { System.out.println( e ); }
+        //
+        // try { makeChangeWithDynamicProgramming( testArray2 , testValue2 ); }
+        // catch( Exception e ) { System.out.println( e ); }
+        //
+        // try { makeChangeWithDynamicProgramming( testArray4 , testValue1 ); System.out.println( " FAIL " ); }
+        // catch( Exception e ) { System.out.println( e ); }
+        //
+        // try { makeChangeWithDynamicProgramming( testArray5 , testValue1 ); System.out.println( " FAIL " ); }
+        // catch( Exception e ) { System.out.println( e ); }
     }
 }
-/*
-# of cols: 0 to target
-# of rows: # of coin denominations
-for col 0: set to Tuple with zeros for num of coin denominations
-go back the coin denom represented by the row
-*/
