@@ -331,4 +331,8 @@ public class BrobInt {
   public String toString() {
     return strValue;
   }
+  
+  public static void main ( String args[] ) {
+  }
+    
 }
