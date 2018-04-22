@@ -21,7 +21,7 @@
  *                                    use them; added explanatory notes to comments; fixed hashCode() to
  *                                    start product at "1" instead of "0" to prevent all codes from being
  *                                    zero, and also checked to make sure that IMPOSSIBLE *does* return 0.
- *
+ *  1.2.0 2018-04-22 M. Tolliver     Added indexOf() method 
  *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 import java.util.Arrays;
 
@@ -106,6 +106,22 @@ public class Tuple {
    public int getElement( int i ) {
       checkIndex(i);
       return data[i];
+   }
+
+   /**
+    * Returns the index of int i in the Tuple.
+    *
+    * @param i  the element being looked for
+    *
+    * @return the index of i in the tuple and -1 if i is not in the Tuple
+    */
+   public int indexOf( int i ) {
+       for ( int index = 0; index < data.length; index++ ) {
+           if ( data[ index ] == i ) {
+               return index;
+           }
+       }
+       return -1;
    }
 
   /**
@@ -202,9 +218,9 @@ public class Tuple {
    @Override
    public String toString() {
       if( isImpossible()) {
-          return "<>";
+          return "Impossible tuple";
       }
-      
+
       String result = "<";
       for( int i = 0; i < length(); i++ ) {
          result += (i > 0 ? "," : "") + data[i];
@@ -236,6 +252,8 @@ public class Tuple {
          throw new IllegalArgumentException();
       }
    }
+
+
 
    public static void main( String args[] ) {
        System.out.println( IMPOSSIBLE.equals( null ) );
