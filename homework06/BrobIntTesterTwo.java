@@ -68,7 +68,7 @@ public class BrobIntTesterTwo {
    }
 
    public static void main( String[] args ) {
-      BrobIntTester git = new BrobIntTester();
+      BrobIntTesterTwo git = new BrobIntTesterTwo();
 
       System.out.println( "\n  Hello, world, from the BrobInt program!!\n" );
 
