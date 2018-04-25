@@ -18,7 +18,7 @@ import java.util.Arrays;
 public class DynamicChangeMaker {
 
     // constants
-    public static final String USAGE_STRING = "Usage: java ChangeMaker < coin denomination 1 , coin denomination 2 , ... , wanted coin value> \n";
+    public static final String USAGE_STRING = "Usage: java DynamicChangeMaker < coin denomination 1 , coin denomination 2 , ... >  [ wanted coin value ] \n";
     public static final String NEGATIVE_INPUT_STRING = "All values must be positive. \n";
     public static final String NOT_ENOUGH_ARGS_STRING = "Must have at least two (2) arguments. \n";
     public static final String DUPLICATE_INPUT_STRING = "No duplicate inputs allowed. \n";
@@ -29,6 +29,7 @@ public class DynamicChangeMaker {
      *  Method to validate arguments
      *  @param  coinDenoms         int[] containing user input  of coin denominations
      *  @param  wantedValue        int coinating user input wanted value
+     *  @throws IllegalArgumentException for negative inputs, duplicates, or 0
      *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
     public static void validateArguments( int[] coinDenoms ,  int wantedValue ) {
 
@@ -54,7 +55,7 @@ public class DynamicChangeMaker {
     }
 
     /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     *  Method to validate arguments
+     *  Method to return optimal amount of coins used to get wanted value
      *  @param  coinDenoms        int[] containing user input  of coin denominations
      *  @param  wantedValue        int coinating user input wanted value
      *  @return tuple with optimal amounts of coins needed to make wanted value
@@ -80,7 +81,7 @@ public class DynamicChangeMaker {
                         checkGrid[ row ][ col ] = new Tuple( coinDenoms.length );
                         checkGrid[ row ][ col ].setElement( row , 1 );
 
-                        // look back for another solution
+                        // look back for tuple to add
                         if ( col - coinDenoms[ row ] >= 0 ) {
                             if ( checkGrid[ row ][ col - coinDenoms[ row ] ].isImpossible() ) {
                                 checkGrid[ row ][ col ] = Tuple.IMPOSSIBLE;
@@ -93,9 +94,14 @@ public class DynamicChangeMaker {
                             checkGrid[ row ][ col ] = Tuple.IMPOSSIBLE;
                         }
 
-                        // look above for better sub solution
+                        // // look above for better sub solution
                         if ( row > 0 ) {
-                            checkGrid[ row ][ col ] = ( checkGrid[ row - 1 ][ col ].total() < checkGrid[ row ][ col ].total() && !checkGrid[ row - 1 ][ col ].isImpossible() ) ? checkGrid[ row - 1 ][ col ] : checkGrid[ row ][ col ];
+                            if ( checkGrid[ row ][ col ].isImpossible() ) {
+                                checkGrid[ row ][ col ] = checkGrid[ row - 1 ][ col ];
+                            }
+                            else if ( !checkGrid[ row - 1 ][ col ].isImpossible() ) {
+                                checkGrid[ row ][ col ] = ( checkGrid[ row ][ col ].total() <= checkGrid[ row - 1 ][ col ].total() ) ? checkGrid[ row ][ col ] : checkGrid[ row - 1 ][ col ];
+                            }
                         }
                     }
                     else {
@@ -103,7 +109,12 @@ public class DynamicChangeMaker {
 
                         // look above for better sub solution
                         if ( row > 0 ) {
-                            checkGrid[ row ][ col ] = ( !checkGrid[ row - 1 ][ col ].isImpossible() ) ? checkGrid[ row - 1 ][ col ] : checkGrid[ row ][ col ];
+                            if ( checkGrid[ row ][ col ].isImpossible() ) {
+                                checkGrid[ row ][ col ] = checkGrid[ row - 1 ][ col ];
+                            }
+                            else if ( !checkGrid[ row - 1 ][ col ].isImpossible() ) {
+                                checkGrid[ row ][ col ] = ( checkGrid[ row ][ col ].total() > checkGrid[ row - 1 ][ col ].total() ) ? checkGrid[ row - 1 ][ col ] : checkGrid[ row ][ col ];
+                            }
                         }
                     }
                 }
@@ -118,80 +129,43 @@ public class DynamicChangeMaker {
         return ( result.equals( zeroedTuple ) ) ? Tuple.IMPOSSIBLE : result;
     }
 
-    /* main used for testing */
+    /* main used to operate makeChangeWithDynamicProgramming() from command line*/
     public static void main( String args[] ) {
-        int[] testArray1 = { 1 , 2 , 3 , 4 };
-        int[] testArray2 = { 3 , 5 , 7 , 8 };
-        int[] testArray3 = { 0 , 1 , 2 , 3 };
-        int[] testArray4 = { 57 , 3 , 5 , -8 };
-        int[] testArray5 = { 23 , 4 , 38 , 23 };
-        int[] usaDenominations = { 25 , 10 , 5 , 1 };
-        int[] weirdDenomination = { 121 , 47 , 23 , 17, 3 };
-        int[] francDenominations  = { 5, 10, 20, 50 };
 
+        int[] coinDenoms = new int[1];
+        int wantedValue = 0;
 
-        int testValue1 = 4;
-        int testValue2 = 23;
-        int testValue3 = -67;
-        int testValue4 = 0;
-        int testValue5 = 99;
-        int weirdValue = 13579;
+        // validate args
+        if ( args.length != 2  ) {
+            System.out.println( USAGE_STRING );
+            System.exit( 0 );
+        }
 
-        // // tests for arrays
-        // System.out.println( "TESTING ARRAYS " );
-        // try { validateArguments( testArray1 , testValue1 ); System.out.println( " PASS " ); }
-        // catch( Exception e ) { System.out.println( " FAIL "); }
-        //
-        // try { validateArguments( testArray2 , testValue2 ); System.out.println( " PASS " ); }
-        // catch( Exception e ) { System.out.println( " FAIL "); }
-        //
-        // try { validateArguments( testArray3 , testValue1 ); System.out.println( " FAIL " ); }
-        // catch( Exception e ) { System.out.println( " PASS "); }
-        //
-        // try { validateArguments( testArray4 , testValue1 ); System.out.println( " FAIL " ); }
-        // catch( Exception e ) { System.out.println( " PASS "); }
-        //
-        // try { validateArguments( testArray5 , testValue1 ); System.out.println( " FAIL " ); }
-        // catch( Exception e ) { System.out.println( " PASS "); }
-        //
-        // // test for wanted values
-        // System.out.println( "\nTESTING WANTED VALUES" );
-        // try { validateArguments( testArray1 , testValue1 ); System.out.println( " PASS " ); }
-        // catch( Exception e ) { System.out.println( " FAIL "); }
-        //
-        // try { validateArguments( testArray1 , testValue1 ); System.out.println( " PASS " ); }
-        // catch( Exception e ) { System.out.println( " FAIL "); }
-        //
-        // try { validateArguments( testArray1 , testValue1 ); System.out.println( " PASS " ); }
-        // catch( Exception e ) { System.out.println( " FAIL "); }
-        //
-        // try { validateArguments( testArray1 , testValue1 ); System.out.println( " PASS " ); }
-        // catch( Exception e ) { System.out.println( " FAIL "); }
-        //
-        // // test for making grids
-        // System.out.println( "\nTESTING ARRAYS " );
-        //
-        // try { System.out.println( makeChangeWithDynamicProgramming( testArray1 , testValue1 ) );  }
-        // catch( Exception e ) { System.out.println( e ); }
-        //
-        // try { System.out.println( makeChangeWithDynamicProgramming( testArray2 , testValue2 ) ); }
-        // catch( Exception e ) { System.out.println( e ); }
-        //
-        // try { System.out.println( makeChangeWithDynamicProgramming( usaDenominations , testValue5 ) ); }
-        // catch( Exception e ) { System.out.println( e ); }
-        try { System.out.println( makeChangeWithDynamicProgramming( weirdDenomination , weirdValue ) ); }
-        catch( Exception e ) { System.out.println( e ); }
-        //expecting <3,0,111,2,1>
-        // try { System.out.println( makeChangeWithDynamicProgramming( francDenominations , testValue5 ) ); }
-        // catch( Exception e ) { System.out.println( e ); }
-        //
-        // try { makeChangeWithDynamicProgramming( testArray2 , testValue2 ); }
-        // catch( Exception e ) { System.out.println( e ); }
-        //
-        // try { makeChangeWithDynamicProgramming( testArray4 , testValue1 ); System.out.println( " FAIL " ); }
-        // catch( Exception e ) { System.out.println( e ); }
-        //
-        // try { makeChangeWithDynamicProgramming( testArray5 , testValue1 ); System.out.println( " FAIL " ); }
-        // catch( Exception e ) { System.out.println( e ); }
+        try {
+            String[] argsSplit = args[0].split( "," );
+            coinDenoms = new int[ argsSplit.length ];
+
+            for ( int index = 0; index < coinDenoms.length; index++ ) {
+                coinDenoms[ index ] = Integer.parseInt( argsSplit[ index ] );
+            }
+
+            wantedValue = Integer.parseInt( args[ 1 ] );
+        }
+        catch( Exception e ) { System.out.println( USAGE_STRING ); System.exit( 0 ); }
+
+        Tuple result = new Tuple( 1 );
+
+        try { result = makeChangeWithDynamicProgramming( coinDenoms , wantedValue ); }
+        catch ( Exception e ) { System.out.println( e ); }
+
+        if ( result.isImpossible() ) {
+            System.out.println( wantedValue + " cents cannot be made with these coin denominations." );
+        }
+        else {
+            System.out.println( wantedValue + " cents can be made with " + result.total() + " coins as follows: " );
+            for ( int index = 0; index < coinDenoms.length; index++ ) {
+                System.out.println( "   " + result.getElement( index ) + " x " + coinDenoms[ index ] + " cent" );
+            }
+        }
     }
 }
