@@ -156,7 +156,7 @@ public class DynamicChangeMaker {
         Tuple result = new Tuple( 1 );
 
         try { result = makeChangeWithDynamicProgramming( coinDenoms , wantedValue ); }
-        catch ( Exception e ) { System.out.println( e ); }
+        catch ( Exception e ) { System.out.println( USAGE_STRING ); System.exit( 0 ); }
 
         if ( result.isImpossible() ) {
             System.out.println( wantedValue + " cents cannot be made with these coin denominations." );
