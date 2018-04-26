@@ -58,13 +58,15 @@ public class DynamicChangeMaker {
      *  Method to return optimal amount of coins used to get wanted value
      *  @param  coinDenoms        int[] containing user input  of coin denominations
      *  @param  wantedValue        int coinating user input wanted value
-     *  @return tuple with optimal amounts of coins needed to make wanted value
+     *  @return tuple with optimal amounts of coins needed to make wanted value or imposible tuple when
+     *          arguments are invalid or denominations cannot make the value
      *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
     public static Tuple makeChangeWithDynamicProgramming( int[] coinDenoms , int wantedValue ) {
 
-        validateArguments( coinDenoms , wantedValue );
+        try { validateArguments( coinDenoms , wantedValue ); }
+        catch ( Exception e ) { return( Tuple.IMPOSSIBLE); }
+
         Tuple useForResult = new Tuple ( coinDenoms );
-        Arrays.sort( coinDenoms );
 
         checkGrid = new Tuple[ coinDenoms.length ][ wantedValue + 1 ];
         Tuple zeroedTuple = new Tuple( coinDenoms.length );
@@ -131,7 +133,6 @@ public class DynamicChangeMaker {
 
     /* main used to operate makeChangeWithDynamicProgramming() from command line*/
     public static void main( String args[] ) {
-
         int[] coinDenoms = new int[1];
         int wantedValue = 0;
 
