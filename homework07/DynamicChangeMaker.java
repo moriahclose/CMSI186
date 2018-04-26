@@ -1,7 +1,7 @@
-/** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- * File name  :  DynamicChangeMaker.java
+/** <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+ * File name  :  DynamicChangeMaker.java<br>
  * Purpose    :  Methods to use Dynamic Programming to find optimal amount of coins of input denominations
- *               to get a wanted value
+ *               to get a wanted value<br>
  * @author    :  Moriah Tolliver
  * Date       :  2018-04-24
  * Description:  This program provides methods necessary to find optimal amount of coins to make an input
@@ -13,22 +13,29 @@
  *  -----  ----------  ------------  ---------------------------------------------------------------------
  *  1.0.0  2017-04-19  M.Tolliver   Initial writing and release
  *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
 public class DynamicChangeMaker {
 
     // constants
-    public static final String USAGE_STRING = "Usage: java DynamicChangeMaker < coin denomination 1 , coin denomination 2 , ... >  [ wanted coin value ] \n";
-    public static final String NEGATIVE_INPUT_STRING = "All values must be positive. \n";
-    public static final String NOT_ENOUGH_ARGS_STRING = "Must have at least two (2) arguments. \n";
-    public static final String DUPLICATE_INPUT_STRING = "No duplicate inputs allowed. \n";
+    private static final String USAGE_STRING = "Usage: java DynamicChangeMaker < coin denomination 1 , coin denomination 2 , ... >  [ wanted coin value ] \n";
+    private static final String NEGATIVE_INPUT_STRING = "All values must be positive. \n";
+    private static final String NOT_ENOUGH_ARGS_STRING = "Must have at least two (2) arguments. \n";
+    private static final String DUPLICATE_INPUT_STRING = "No duplicate inputs allowed. \n";
 
-    public static Tuple[][] checkGrid;
+    private static Tuple[][] checkGrid;     // 2d array used to go through Dynamic Programming Algorithm
 
-    /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     *  Method to validate arguments
+    /**
+     * Inherits properties from java.lang.Object class
+     */
+    public DynamicChangeMaker() {
+        super();
+    }
+    /**
+     *  Validate arguments
      *  @param  coinDenoms         int[] containing user input  of coin denominations
      *  @param  wantedValue        int coinating user input wanted value
      *  @throws IllegalArgumentException for negative inputs, duplicates, or 0
-     *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+     */
     public static void validateArguments( int[] coinDenoms ,  int wantedValue ) {
 
         // make sure arguments are positive
@@ -52,13 +59,13 @@ public class DynamicChangeMaker {
         }
     }
 
-    /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     *  Method to return optimal amount of coins used to get wanted value
+    /**
+     *  Returns optimal amount of coins used to get wanted value
      *  @param  coinDenoms        int[] containing user input  of coin denominations
      *  @param  wantedValue        int coinating user input wanted value
      *  @return tuple with optimal amounts of coins needed to make wanted value or imposible tuple when
      *          arguments are invalid or denominations cannot make the value
-     *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+     */
     public static Tuple makeChangeWithDynamicProgramming( int[] coinDenoms , int wantedValue ) {
 
         try { validateArguments( coinDenoms , wantedValue ); }
@@ -129,7 +136,10 @@ public class DynamicChangeMaker {
         return ( result.equals( zeroedTuple ) ) ? Tuple.IMPOSSIBLE : result;
     }
 
-    /* main used to operate makeChangeWithDynamicProgramming() from command line*/
+    /**
+      * Runs makeChangeWithDynamicProgramming() from the command line
+      * @param  args      String[] cointaining coin denominations and wanted value
+      */
     public static void main( String args[] ) {
         int[] coinDenoms = new int[1];
         int wantedValue = 0;
